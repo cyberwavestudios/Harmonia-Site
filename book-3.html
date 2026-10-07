@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="De Harmonia Restituta, Liber Tertius — The Cybernetic Tuning Fork.">
+<meta name="author" content="Charles Hadley">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070911'/%3E%3Cpath d='M10 4v10a6 6 0 0 0 12 0V4M16 20v9' fill='none' stroke='%23E0B75A' stroke-width='2'/%3E%3C/svg%3E">
+<title>The Cybernetic Tuning Fork</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,300;0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Sans+Symbols+2&display=swap">
+<style>
+:root{
+  --ground:#D9D4C4;
+  --field:#E5E1D4;
+  --field-2:#CFCABA;
+  --ink:#14171E;
+  --ink-2:#3C4250;
+  --ink-3:#6E7585;
+  --rule:#A7A395;
+  --rule-2:#C2BEB0;
+  --gold:#8A6A1F;
+  --gold-soft:#B79A55;
+
+  --p-sol:#946200; --p-lun:#455C88; --p-mer:#0B6A5E;
+  --p-ven:#A22668; --p-mar:#A6251B; --p-jov:#304E8D; --p-sat:#77611C;
+
+  --a-conj:#8A6A1F; --a-semi:#3539A0; --a-sext:#17588F; --a-quin:#66339B;
+  --a-squa:#A61B27; --a-trin:#116A45; --a-oppo:#8B2670;
+
+  --m-ion:#8A6512; --m-dor:#0D6A56; --m-phr:#9C2027; --m-lyd:#1A5C8C;
+  --m-mix:#374C93; --m-aeo:#4A4382; --m-loc:#722A8C;
+
+  --focus:#8A6A1F;
+  --shadow:0 1px 0 rgba(20,23,30,.06);
+  --measure:34rem;
+  --folio:62rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+    --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+    --rule:#2C3140; --rule-2:#1D2130;
+    --gold:#E0B75A; --gold-soft:#8A7442;
+    --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+    --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+    --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+    --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+    --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+    --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+    --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+  --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+  --rule:#2C3140; --rule-2:#1D2130;
+  --gold:#E0B75A; --gold-soft:#8A7442;
+  --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+  --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+  --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+  --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+  --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+  --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+  --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+}
+
+</style>
+<style>
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Spectral","Iowan Old Style",Georgia,serif;
+  margin:0; padding:0 20px; -webkit-font-smoothing:antialiased;
+}
+.leaf{
+  min-height:100%; max-width:40rem; margin:0 auto;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  padding-block:clamp(3.5rem,12vh,7.5rem) 2.5rem;
+}
+h1{
+  font-family:"IM Fell English",Georgia,serif; font-weight:400; margin:0;
+  font-size:clamp(2.2rem,7vw,3.7rem); line-height:1.06; text-wrap:balance;
+}
+.rule{width:5.5rem; height:0; border-top:1px solid var(--gold-soft); margin:2.1rem auto 2rem; position:relative}
+.rule::before,.rule::after{content:""; position:absolute; top:-3px; width:5px; height:5px; background:var(--gold); transform:rotate(45deg)}
+.rule::before{left:-9px} .rule::after{right:-9px}
+blockquote{
+  margin:0; max-width:31rem;
+  font-family:"IM Fell English",Georgia,serif; font-style:italic;
+  font-size:clamp(1.12rem,2.6vw,1.34rem); line-height:1.6; color:var(--ink-2); text-wrap:pretty;
+}
+
+/* the instrument */
+.instrument{
+  margin-top:3.2rem; position:relative; display:inline-flex; align-items:center; gap:.9rem;
+  padding:.95rem 1.7rem 1rem 1.4rem; text-decoration:none; color:var(--ink);
+  background:var(--field); border:1px solid var(--rule);
+  font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.2em; font-size:.92rem;
+  transition:background .25s ease,color .25s ease,border-color .25s ease;
+}
+.instrument::after{content:""; position:absolute; inset:4px; border:1px solid var(--rule-2); pointer-events:none; transition:border-color .25s ease}
+.instrument svg{width:15px; height:26px; flex:none; color:var(--gold)}
+.instrument:hover{background:var(--ink); color:var(--field); border-color:var(--ink)}
+.instrument:hover::after{border-color:color-mix(in srgb,var(--field) 30%,transparent)}
+.instrument:focus-visible{outline:2px solid var(--focus); outline-offset:4px}
+
+.spacer{flex:1 1 auto; min-height:4.5rem}
+
+/* the way back */
+.home{
+  position:absolute; top:calc(16px + env(safe-area-inset-top,0px)); left:20px; z-index:2;
+  font-family:"IM Fell English SC",Georgia,serif; font-size:.76rem; letter-spacing:.1em;
+  color:var(--ink-3); text-decoration:none; border:1px solid var(--rule-2); padding:.2rem .55rem .24rem;
+  transition:background .2s ease,color .2s ease,border-color .2s ease;
+}
+.home:hover{background:var(--ink); color:var(--field); border-color:var(--ink)}
+.home:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+
+/* the stamp */
+.stamp{display:block; width:132px; height:132px; border-radius:50%; color:var(--ink-3); cursor:pointer; transition:transform .5s ease}
+.stamp:hover{transform:scale(1.06)}
+.stamp:focus-visible{outline:2px solid var(--focus); outline-offset:6px}
+.stamp svg{width:100%; height:100%; display:block; overflow:visible}
+.stamp .turn{transform-origin:100px 100px; animation:turn 180s linear infinite}
+.stamp .disk{transform-origin:100px 100px; animation:turn 60s linear infinite reverse}
+@keyframes turn{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.stamp .turn,.stamp .disk{animation:none}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<a class="home" href="index.html" aria-label="Back to the three books">&#8592; Index Librorum</a>
+
+<main class="leaf">
+  <h1>The Cybernetic Tuning Fork</h1>
+  <div class="rule" aria-hidden="true"></div>
+  <blockquote>“When the human operator introduces their own agency — taking up the diatonic instrument, the Cybernetic Tuning Fork, to play alongside the generative drone of the solar system — the final circuit is closed.”</blockquote>
+
+  <a class="instrument" href="https://cybernetic-tuner.cyberwavestudios.com" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 15 26" fill="none" stroke="currentColor" stroke-width="1.3" aria-hidden="true">
+      <path d="M2.5 1 V11 a5 5 0 0 0 10 0 V1"/><path d="M7.5 16 V25"/>
+    </svg>
+    Close the Circuit
+  </a>
+
+  <div class="spacer"></div>
+
+  <a class="stamp" id="stamp" href="cosmograph.html" aria-label="The cosmograph">
+    <svg viewBox="0 0 200 200" aria-hidden="true">
+      <defs>
+        <radialGradient id="halo" cx="50%" cy="50%" r="50%">
+          <stop offset="52%" stop-color="var(--gold)" stop-opacity="0"/>
+          <stop offset="60%" stop-color="var(--gold)" stop-opacity=".95"/>
+          <stop offset="72%" stop-color="var(--gold)" stop-opacity=".35"/>
+          <stop offset="100%" stop-color="var(--gold)" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2.2"/></filter>
+        <clipPath id="front"><rect x="0" y="100" width="200" height="100"/></clipPath>
+      </defs>
+      <!-- the seal -->
+      <g class="turn">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="currentColor" stroke-width="1"/>
+        <circle cx="100" cy="100" r="89" fill="none" stroke="currentColor" stroke-width="6" stroke-dasharray=".9 3.76" opacity=".7"/>
+        <circle cx="100" cy="100" r="83" fill="none" stroke="currentColor" stroke-width=".7"/>
+      </g>
+      <circle cx="100" cy="100" r="80" fill="#05060B"/>
+      <!-- far side of the disk -->
+      <g transform="rotate(-7 100 100)" fill="none" stroke="var(--gold)">
+        <ellipse cx="100" cy="100" rx="74" ry="7.5" stroke-width="1" opacity=".55"/>
+        <ellipse cx="100" cy="100" rx="62" ry="6" stroke-width=".7" opacity=".35"/>
+      </g>
+      <!-- the lensed far side, wrapped over and under the shadow -->
+      <circle cx="100" cy="100" r="52" fill="url(#halo)"/>
+      <circle class="disk" cx="100" cy="100" r="35" fill="none" stroke="var(--gold)" stroke-width="3.5" filter="url(#glow)" stroke-dasharray="40 6 22 4" opacity=".85"/>
+      <circle cx="100" cy="100" r="33" fill="none" stroke="#FFE6A8" stroke-width="1.1"/>
+      <!-- the horizon -->
+      <circle cx="100" cy="100" r="30" fill="#000"/>
+      <!-- near side of the disk, in front of the shadow -->
+      <g transform="rotate(-7 100 100)" clip-path="url(#front)" fill="none">
+        <ellipse cx="100" cy="100" rx="74" ry="7.5" stroke="var(--gold)" stroke-width="3" filter="url(#glow)" opacity=".7"/>
+        <ellipse cx="100" cy="100" rx="74" ry="7.5" stroke="#FFE6A8" stroke-width="1.2"/>
+        <ellipse cx="100" cy="100" rx="62" ry="6" stroke="var(--gold)" stroke-width=".8" opacity=".6"/>
+      </g>
+    </svg>
+  </a>
+</main>
+
+<script>
+(function(){
+  /* the cosmograph's address — set here */
+  var COSMOGRAPH = "cosmograph.html";
+  var s = document.getElementById("stamp");
+  if (COSMOGRAPH) { s.setAttribute("href", COSMOGRAPH); s.removeAttribute("role"); s.removeAttribute("tabindex"); }
+})();
+</script>
+</body>
+</html>

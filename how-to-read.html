@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="How to approach De Harmonia Restituta: where to begin, a glossary of key terms, and a note on the Latin titles.">
+<meta name="author" content="Charles Hadley">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070911'/%3E%3Cpath d='M10 4v10a6 6 0 0 0 12 0V4M16 20v9' fill='none' stroke='%23E0B75A' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;1,400&display=swap">
+<title>How to Approach the Text</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;1,400&display=swap">
+<style>
+:root{
+  --ground:#D9D4C4;
+  --field:#E5E1D4;
+  --field-2:#CFCABA;
+  --ink:#14171E;
+  --ink-2:#3C4250;
+  --ink-3:#6E7585;
+  --rule:#A7A395;
+  --rule-2:#C2BEB0;
+  --gold:#8A6A1F;
+  --gold-soft:#B79A55;
+
+  --p-sol:#946200; --p-lun:#455C88; --p-mer:#0B6A5E;
+  --p-ven:#A22668; --p-mar:#A6251B; --p-jov:#304E8D; --p-sat:#77611C;
+
+  --a-conj:#8A6A1F; --a-semi:#3539A0; --a-sext:#17588F; --a-quin:#66339B;
+  --a-squa:#A61B27; --a-trin:#116A45; --a-oppo:#8B2670;
+
+  --m-ion:#8A6512; --m-dor:#0D6A56; --m-phr:#9C2027; --m-lyd:#1A5C8C;
+  --m-mix:#374C93; --m-aeo:#4A4382; --m-loc:#722A8C;
+
+  --focus:#8A6A1F;
+  --shadow:0 1px 0 rgba(20,23,30,.06);
+  --measure:34rem;
+  --folio:62rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+    --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+    --rule:#2C3140; --rule-2:#1D2130;
+    --gold:#E0B75A; --gold-soft:#8A7442;
+    --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+    --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+    --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+    --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+    --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+    --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+    --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+  --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+  --rule:#2C3140; --rule-2:#1D2130;
+  --gold:#E0B75A; --gold-soft:#8A7442;
+  --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+  --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+  --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+  --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+  --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+  --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+  --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+}
+
+</style>
+<style>
+*{box-sizing:border-box}
+body{background:var(--ground); color:var(--ink); margin:0; padding:0 20px;
+  font-family:"Spectral","Iowan Old Style",Georgia,serif; -webkit-font-smoothing:antialiased}
+.bar{max-width:46rem; margin:0 auto; padding:1.1rem 0 0; display:flex}
+.home{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.14em; font-size:.74rem; color:var(--ink-2);
+  text-decoration:none; border:1px solid var(--rule); background:var(--field); padding:.42rem .8rem;
+  transition:background .2s ease,color .2s ease,border-color .2s ease}
+.home:hover{background:var(--ink); color:var(--field); border-color:var(--ink)}
+.home:focus-visible,.book-ref:focus-visible{outline:2px solid var(--focus); outline-offset:3px}
+.leaf{max-width:38rem; margin:0 auto; padding:clamp(2.2rem,7vh,4.5rem) 0 4.5rem}
+section + section{margin-top:3.2rem}
+.guide-h{font-family:"IM Fell English",Georgia,serif; font-weight:400; text-align:center; text-wrap:balance;
+  font-size:clamp(1.75rem,4.6vw,2.35rem); line-height:1.1; margin:0}
+.guide-h::after{content:""; display:block; width:4.5rem; margin:1.15rem auto 0; border-top:1px solid var(--gold-soft)}
+.guide-lede{font-family:"IM Fell English",Georgia,serif; font-style:italic; color:var(--ink-2);
+  font-size:1.08rem; line-height:1.55; text-align:center; max-width:32rem; margin:1.2rem auto 1.6rem; text-wrap:pretty}
+.paths{list-style:none; counter-reset:p; margin:0; padding:0}
+.paths li{counter-increment:p; position:relative; padding:0 0 0 2.4rem; margin:0 0 1.15rem;
+  font-size:1.02rem; line-height:1.62; text-wrap:pretty}
+.paths li::before{content:counter(p) "."; position:absolute; left:0; top:.02rem; width:1.7rem; text-align:right;
+  font-family:"IM Fell English",Georgia,serif; font-size:1.2rem; color:var(--gold)}
+.who{font-family:"IM Fell English SC",Georgia,serif; font-weight:400; letter-spacing:.06em; font-size:1.06rem; color:var(--ink)}
+.book-ref{color:inherit; font-style:italic; text-decoration:underline; text-decoration-color:var(--gold-soft);
+  text-decoration-thickness:1px; text-underline-offset:.2em; transition:color .2s ease,text-decoration-color .2s ease}
+.book-ref:hover{color:var(--gold); text-decoration-color:var(--gold)}
+.glossary{margin:0; border-top:1px solid var(--rule-2)}
+.term{display:grid; grid-template-columns:1fr; gap:.25rem; padding:.85rem 0; border-bottom:1px solid var(--rule-2)}
+@media (min-width:620px){.term{grid-template-columns:11rem 1fr; gap:1.4rem}}
+.term dt{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.06em; font-size:1.06rem; color:var(--gold); line-height:1.5}
+.term dd{margin:0; font-size:1rem; line-height:1.6; color:var(--ink); text-wrap:pretty}
+.guide-note{font-size:1.02rem; line-height:1.65; margin:1.5rem 0 0; text-wrap:pretty}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.001ms!important}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<nav class="bar"><a class="home" href="index.html" aria-label="Back to the three books">&#8592; Index Librorum</a></nav>
+<main class="leaf">
+<section>
+<h2 class="guide-h" id="how-to-read">How to Approach the Text</h2>
+<p class="guide-lede">Depending on your background, you may choose to read this book in different ways:</p>
+<ol class="paths"><li><b class="who">For General Readers &amp; History Enthusiasts:</b> Start with the <a class="book-ref" href="book-1.html#praefatio">Praefatio</a>. It provides a narrative history of cosmic music from Pythagoras, Plato, and Boethius through Renaissance magic and early modern science.</li><li><b class="who">For Philosophers &amp; Music Theorists:</b> Focus on <a class="book-ref" href="book-1.html#liber-i">Liber Primus</a>. It lays out the core principles — how musical keys, scale modes, chord intervals, and audio effects are assigned to astronomical positions and planetary alignments.</li><li><b class="who">For Software Engineers &amp; Sound Designers:</b> Jump to <a class="book-ref" href="book-2.html">Liber Secundus</a>. Here you will find technical diagrams, architecture flows, mathematical formulas, and the actual Python and SuperCollider source code powering the music engine.</li></ol>
+</section>
+<section>
+<h2 class="guide-h">Glossary of Key Terms</h2>
+<p class="guide-lede">To help you navigate the foundational esoteric, philosophical, and technical vocabulary used throughout the text, refer to this quick reference guide:</p>
+<dl class="glossary"><div class="term"><dt>Aspect</dt><dd>The geometric angle formed between two celestial bodies relative to Earth (such as a 90° Square or 120° Trine).</dd></div><div class="term"><dt>Hermetic</dt><dd>Relating to the philosophical, alchemical, and cosmic tradition stemming from texts attributed to Hermes Trismegistus, grounded in the principle of correspondence (“as above, so below”).</dd></div><div class="term"><dt>Kairós</dt><dd>An ancient Greek concept denoting an opportune, qualitative, or alignment-driven moment in time, as opposed to Chronos (quantitative, sequential clock time).</dd></div><div class="term"><dt>Macrocosm &amp; Microcosm</dt><dd>The Hermetic doctrine that the grand architecture of the universe (macrocosm) and the individual human or observer (microcosm) are structural reflections of one another.</dd></div><div class="term"><dt>Monad</dt><dd>The supreme, indivisible unity or ultimate source from which all numerical, cosmological, and musical proportions originate.</dd></div><div class="term"><dt>Orb (Orb of Influence)</dt><dd>The allowable margin or tolerance of degrees before or after an exact astrological aspect within which two planets are still considered in active geometric relationship.</dd></div><div class="term"><dt>Sonification</dt><dd>The process of translating non-auditory data — such as astronomical positions, planetary coordinates, or orbital vectors — into sound or musical parameters.</dd></div></dl>
+</section>
+<section>
+<h2 class="guide-h">Quick Note to the Reader</h2>
+<p class="guide-note">The title of this book as well as the sections, figures, plates, and schematics are in Latin as a tribute to the works of Robert Fludd, but you can find the English variations of these titles at the bottom of sections, figures, plates, and schematics.</p>
+</section>
+</main>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="The front door to De Harmonia Restituta and its three books.">
+<meta name="author" content="Charles Hadley">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070911'/%3E%3Cpath d='M10 4v10a6 6 0 0 0 12 0V4M16 20v9' fill='none' stroke='%23E0B75A' stroke-width='2'/%3E%3C/svg%3E">
+<title>De Harmonia Restituta Codex</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,400;1,400&display=swap">
+<style>
+:root{
+  --ground:#D9D4C4;
+  --field:#E5E1D4;
+  --field-2:#CFCABA;
+  --ink:#14171E;
+  --ink-2:#3C4250;
+  --ink-3:#6E7585;
+  --rule:#A7A395;
+  --rule-2:#C2BEB0;
+  --gold:#8A6A1F;
+  --gold-soft:#B79A55;
+
+  --p-sol:#946200; --p-lun:#455C88; --p-mer:#0B6A5E;
+  --p-ven:#A22668; --p-mar:#A6251B; --p-jov:#304E8D; --p-sat:#77611C;
+
+  --a-conj:#8A6A1F; --a-semi:#3539A0; --a-sext:#17588F; --a-quin:#66339B;
+  --a-squa:#A61B27; --a-trin:#116A45; --a-oppo:#8B2670;
+
+  --m-ion:#8A6512; --m-dor:#0D6A56; --m-phr:#9C2027; --m-lyd:#1A5C8C;
+  --m-mix:#374C93; --m-aeo:#4A4382; --m-loc:#722A8C;
+
+  --focus:#8A6A1F;
+  --shadow:0 1px 0 rgba(20,23,30,.06);
+  --measure:34rem;
+  --folio:62rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+    --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+    --rule:#2C3140; --rule-2:#1D2130;
+    --gold:#E0B75A; --gold-soft:#8A7442;
+    --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+    --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+    --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+    --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+    --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+    --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+    --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+  --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+  --rule:#2C3140; --rule-2:#1D2130;
+  --gold:#E0B75A; --gold-soft:#8A7442;
+  --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+  --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+  --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+  --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+  --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+  --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+  --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+}
+
+</style>
+<style>
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Spectral","Iowan Old Style",Georgia,serif;
+  margin:0; padding:0 20px; -webkit-font-smoothing:antialiased;
+}
+.leaf{
+  min-height:100%; max-width:52rem; margin:0 auto;
+  display:flex; flex-direction:column; align-items:center; text-align:center;
+  padding-block:clamp(3.5rem,11vh,7rem) 2.5rem;
+}
+.volume{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.24em; font-size:.74rem; color:var(--ink-3)}
+h1{
+  font-family:"IM Fell English",Georgia,serif; font-weight:400; margin:.9rem 0 0;
+  font-size:clamp(2.3rem,7vw,3.9rem); line-height:1.05; text-wrap:balance;
+}
+.sub{
+  font-family:"IM Fell English",Georgia,serif; font-style:italic; color:var(--ink-2);
+  font-size:clamp(1rem,2.2vw,1.12rem); line-height:1.55; max-width:33rem; margin-top:1.1rem;
+}
+.rule{width:5.5rem; height:0; border-top:1px solid var(--gold-soft); margin:2.4rem auto; position:relative}
+.rule::before,.rule::after{content:""; position:absolute; top:-3px; width:5px; height:5px; background:var(--gold); transform:rotate(45deg)}
+.rule::before{left:-9px} .rule::after{right:-9px}
+
+.books{display:grid; gap:1rem; width:100%; grid-template-columns:1fr; max-width:46rem}
+@media (min-width:680px){.books{grid-template-columns:repeat(3,1fr); gap:1.2rem}}
+.book{
+  position:relative; display:flex; flex-direction:column; align-items:center; gap:.55rem;
+  padding:1.6rem 1rem 1.45rem; text-decoration:none; color:var(--ink);
+  background:var(--field); border:1px solid var(--rule);
+  transition:background .25s ease,color .25s ease,border-color .25s ease;
+}
+.book::after{content:""; position:absolute; inset:5px; border:1px solid var(--rule-2); pointer-events:none; transition:border-color .25s ease}
+.book .no{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.2em; color:var(--gold); font-size:.72rem}
+.book .label{font-family:"IM Fell English",Georgia,serif; font-size:1.85rem; line-height:1}
+.book .t{font-family:"Spectral",Georgia,serif; font-style:italic; font-size:.84rem; color:var(--ink-3); transition:color .25s ease}
+.book:hover{background:var(--ink); color:var(--field); border-color:var(--ink)}
+.book:hover::after{border-color:color-mix(in srgb,var(--field) 30%,transparent)}
+.book:hover .t{color:color-mix(in srgb,var(--field) 70%,transparent)}
+.book:focus-visible{outline:2px solid var(--focus); outline-offset:4px}
+
+.guide{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.16em; font-size:.86rem; color:var(--gold);
+  text-decoration:none; margin:-.6rem 0 1.6rem; padding:.3rem .2rem; border-bottom:1px solid var(--gold-soft);
+  transition:color .2s ease,border-color .2s ease}
+.guide:hover{color:var(--ink); border-color:var(--ink)}
+.guide:focus-visible{outline:2px solid var(--focus); outline-offset:4px}
+.spacer{flex:1 1 auto; min-height:3.5rem}
+.imprint{font-family:"IM Fell English SC",Georgia,serif; font-size:.72rem; letter-spacing:.16em; color:var(--ink-3); line-height:2}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.001ms!important}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<main class="leaf">
+  <div class="volume">Opus in Tribus Libris</div>
+  <h1>De Harmonia Restituta</h1>
+  <div class="sub">A Treatise on the Restitution of the Cosmic Monochord, the Vanity of the Empirical Discord, and the Reawakening of the Hermetic Symphony</div>
+
+  <div class="rule" aria-hidden="true"></div>
+
+  <a class="guide" href="how-to-read.html">How to Approach the Text</a>
+
+  <nav class="books" aria-label="The three books">
+    <a class="book" href="book-1.html">
+      <span class="no">Liber Primus</span>
+      <span class="label">Book I</span>
+      <span class="t">The Severed String</span>
+    </a>
+    <a class="book" href="book-2.html">
+      <span class="no">Liber Secundus</span>
+      <span class="label">Book II</span>
+      <span class="t">Schemata Musicae</span>
+    </a>
+    <a class="book" href="book-3.html">
+      <span class="no">Liber Tertius</span>
+      <span class="label">Book III</span>
+      <span class="t">The Cybernetic Tuning Fork</span>
+    </a>
+  </nav>
+
+  <div class="spacer"></div>
+
+  <div class="imprint">
+    Charles Hadley<br>
+    Dedicated to Robert Fludd of Bearsted<br>
+    Anno MMXXVI
+  </div>
+</main>
+</body>
+</html>

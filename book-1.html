@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="De Harmonia Restituta, Liber Primus — the Preface and Book I, The Severed String.">
+<meta name="author" content="Charles Hadley">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070911'/%3E%3Cpath d='M10 4v10a6 6 0 0 0 12 0V4M16 20v9' fill='none' stroke='%23E0B75A' stroke-width='2'/%3E%3C/svg%3E">
+<title>De Harmonia Restituta</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=IM+Fell+English+SC&family=Spectral:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Symbols+2&display=swap">
+<style>
+/* ───────────────────────────────────────────────────────────────
+   DE HARMONIA RESTITUTA — Liber Primus.
+   The same house style as Schemata Musicae: Fell types for the
+   doctrine, Spectral for the reading text, Plex Mono for the
+   machine, and the engine's own colours for the seven and the
+   seven modes. Light = the page as printed; dark = as illuminated.
+   ─────────────────────────────────────────────────────────────── */
+
+:root{
+  --ground:#D9D4C4;
+  --field:#E5E1D4;
+  --field-2:#CFCABA;
+  --ink:#14171E;
+  --ink-2:#3C4250;
+  --ink-3:#6E7585;
+  --rule:#A7A395;
+  --rule-2:#C2BEB0;
+  --gold:#8A6A1F;
+  --gold-soft:#B79A55;
+
+  --p-sol:#946200; --p-lun:#455C88; --p-mer:#0B6A5E;
+  --p-ven:#A22668; --p-mar:#A6251B; --p-jov:#304E8D; --p-sat:#77611C;
+
+  --a-conj:#8A6A1F; --a-semi:#3539A0; --a-sext:#17588F; --a-quin:#66339B;
+  --a-squa:#A61B27; --a-trin:#116A45; --a-oppo:#8B2670;
+
+  --m-ion:#8A6512; --m-dor:#0D6A56; --m-phr:#9C2027; --m-lyd:#1A5C8C;
+  --m-mix:#374C93; --m-aeo:#4A4382; --m-loc:#722A8C;
+
+  --focus:#8A6A1F;
+  --shadow:0 1px 0 rgba(20,23,30,.06);
+  --measure:34rem;
+  --folio:62rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+    --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+    --rule:#2C3140; --rule-2:#1D2130;
+    --gold:#E0B75A; --gold-soft:#8A7442;
+    --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+    --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+    --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+    --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+    --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+    --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+    --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#070911; --field:#0C0F19; --field-2:#11141F;
+  --ink:#DAD4C2; --ink-2:#A69F8D; --ink-3:#6F6B62;
+  --rule:#2C3140; --rule-2:#1D2130;
+  --gold:#E0B75A; --gold-soft:#8A7442;
+  --p-sol:#FFC44A; --p-lun:#BED8FF; --p-mer:#72E6D2;
+  --p-ven:#FF84C4; --p-mar:#FF5E4E; --p-jov:#9CBEFF; --p-sat:#DCC686;
+  --a-conj:#FFE196; --a-semi:#7D91FF; --a-sext:#5FBEFF; --a-quin:#D282FF;
+  --a-squa:#FF4854; --a-trin:#64EBAA; --a-oppo:#FF70D2;
+  --m-ion:#FFDC78; --m-dor:#69D2B4; --m-phr:#DC5A5F; --m-lyd:#82D2FF;
+  --m-mix:#96B9FF; --m-aeo:#9691D2; --m-loc:#BE73D7;
+  --focus:#E0B75A; --shadow:0 1px 0 rgba(0,0,0,.4);
+}
+
+*{box-sizing:border-box}
+
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Spectral","Iowan Old Style",Georgia,serif;
+  font-size:16px; line-height:1.68; font-weight:400;
+  -webkit-font-smoothing:antialiased;
+  padding:0 20px calc(4rem + env(safe-area-inset-bottom,0px));
+  overflow-x:hidden;
+}
+
+.runninghead{
+  position:sticky; top:env(safe-area-inset-top,0px); z-index:40;
+  display:flex; align-items:baseline; gap:1rem;
+  max-width:var(--folio); margin:0 auto;
+  padding-block:.6rem .5rem;
+  background:color-mix(in srgb, var(--ground) 92%, transparent);
+  backdrop-filter:blur(6px);
+  border-bottom:1px solid var(--rule-2);
+}
+.runninghead .rh-title{
+  font-family:"IM Fell English SC",Georgia,serif;
+  font-size:.86rem; letter-spacing:.1em; color:var(--ink-2);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.runninghead .rh-spacer{flex:1}
+.rh-nav{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.72rem; letter-spacing:.04em;
+  background:transparent; color:var(--ink-2);
+  border:1px solid var(--rule); border-radius:0;
+  padding:.24rem .4rem; max-width:13rem;
+}
+main{max-width:var(--folio); margin:0 auto}
+.measure{max-width:var(--measure)}
+
+.rubric{
+  font-family:"IM Fell English SC",Georgia,serif;
+  letter-spacing:.11em; color:var(--gold); font-size:.78rem; line-height:1.4;
+}
+h1,h2,h3,h4{font-family:"IM Fell English",Georgia,serif;font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.1rem,6.5vw,3.5rem); line-height:1.06}
+h2{font-size:clamp(1.5rem,4vw,2.1rem); line-height:1.15}
+h3{font-size:1.32rem; line-height:1.25}
+h4{font-size:1.04rem; line-height:1.3}
+p{margin:0 0 1.15em}
+.lede{font-size:1.09rem; line-height:1.62; color:var(--ink-2); font-style:italic}
+.drop::first-letter{
+  font-family:"IM Fell English",Georgia,serif;
+  float:left; font-size:3.45em; line-height:.82; padding:.06em .1em 0 0; color:var(--gold);
+}
+a{color:inherit; text-underline-offset:.18em; text-decoration-color:var(--gold-soft)}
+a:focus-visible,select:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+.glyph{font-family:"Noto Sans Symbols 2","Segoe UI Symbol","Apple Symbols",serif; font-style:normal}
+.sc{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.06em}
+.num{font-family:"IBM Plex Mono",ui-monospace,monospace; font-variant-numeric:tabular-nums; font-size:.9em}
+.faint{color:var(--ink-3)}
+.ornament{display:block; text-align:center; color:var(--gold-soft); font-size:1.1rem; letter-spacing:.9em; margin:2.6rem 0 2.4rem}
+
+/* frontispiece */
+.front{text-align:center; padding-block:3.2rem 1rem; display:flex; flex-direction:column; align-items:center; gap:1.1rem}
+.front .volume{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.24em; font-size:.74rem; color:var(--ink-3)}
+.front .sub{font-family:"IM Fell English",Georgia,serif; font-style:italic; font-size:1.06rem; color:var(--ink-2); max-width:32rem; line-height:1.5}
+.front .imprint{font-family:"IM Fell English SC",Georgia,serif; font-size:.72rem; letter-spacing:.16em; color:var(--ink-3); line-height:2}
+.front figure{margin:0; width:min(330px,72vw)}
+
+/* the movements of the text */
+.canto{margin:0 0 4rem; scroll-margin-top:4.6rem}
+.canto-head{
+  display:flex; align-items:baseline; gap:.9rem; flex-wrap:wrap;
+  border-bottom:1px solid var(--rule); padding-bottom:.75rem; margin-bottom:1.7rem;
+}
+.canto-no{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.14em; color:var(--gold); font-size:.8rem; white-space:nowrap}
+.canto-title{font-family:"IM Fell English",Georgia,serif; font-size:clamp(1.4rem,3.6vw,2rem); line-height:1.14}
+.canto-title .en{display:block; font-family:"Spectral",Georgia,serif; font-style:italic; font-size:.82rem; color:var(--ink-3); margin-top:.2rem; line-height:1.45}
+
+.chapter{margin:2.8rem 0 0}
+.chapter > .ch-head{display:flex; align-items:baseline; gap:.7rem; margin-bottom:.9rem}
+.ch-no{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.14em; color:var(--gold); font-size:.78rem}
+.chapter .sub-title{font-family:"Spectral",Georgia,serif; font-style:italic; color:var(--ink-3); font-size:.92rem; margin:-.5rem 0 1.1rem}
+
+.era{margin:2.3rem 0 1rem}
+.era .era-head{display:flex; align-items:baseline; gap:.8rem; flex-wrap:wrap; border-bottom:1px solid var(--rule-2); padding-bottom:.4rem; margin-bottom:.9rem}
+.era .era-head h4{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.08em; font-size:.95rem}
+.era .era-head .span{font-family:"IBM Plex Mono",monospace; font-size:.7rem; color:var(--gold); white-space:nowrap; margin-left:auto}
+
+ul.tenets{list-style:none; margin:1.1rem 0 1.4rem; padding:0; display:grid; gap:.75rem}
+ul.tenets li{position:relative; padding-left:1.5rem; max-width:var(--measure)}
+ul.tenets li::before{
+  content:"—"; position:absolute; left:0; top:0; color:var(--gold); font-family:"IM Fell English",serif;
+}
+ul.tenets li .lbl{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.05em; color:var(--ink)}
+
+.axiom{margin:1.8rem 0; padding-left:1.1rem; border-left:1px solid var(--rule-2); max-width:var(--measure)}
+.axiom .ax-no{
+  display:block; font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.12em;
+  font-size:.72rem; color:var(--gold); margin-bottom:.3rem;
+}
+.axiom h4{margin-bottom:.5rem}
+
+.epigraph{border-left:2px solid var(--gold-soft); padding-left:1rem; margin:2.2rem 0; font-style:italic; color:var(--ink-2); font-size:.98rem; max-width:34rem}
+.epigraph cite{display:block; font-style:normal; font-family:"IM Fell English SC",Georgia,serif; font-size:.72rem; letter-spacing:.1em; color:var(--ink-3); margin-top:.5rem}
+
+/* plates, for the figures that belong to the argument */
+.plate{
+  position:relative; margin:2.4rem 0 3rem;
+  background:var(--field); border:1px solid var(--rule);
+  padding:clamp(1rem,3.2vw,1.8rem); box-shadow:var(--shadow);
+}
+.plate::after{content:""; position:absolute; inset:5px; border:1px solid var(--rule-2); pointer-events:none}
+.plate > *{position:relative; z-index:1}
+.plate-head{display:flex; align-items:baseline; gap:.9rem; flex-wrap:wrap; border-bottom:1px solid var(--rule-2); padding-bottom:.7rem; margin-bottom:1.3rem}
+.plate-no{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.14em; color:var(--gold); font-size:.8rem; white-space:nowrap}
+.plate-title{font-family:"IM Fell English",Georgia,serif; font-size:clamp(1.2rem,3.2vw,1.55rem); line-height:1.15}
+.plate-title .en{display:block; font-family:"Spectral",Georgia,serif; font-style:italic; font-size:.8rem; color:var(--ink-3); margin-top:.18rem; line-height:1.4}
+figure{margin:0}
+figcaption{font-size:.86rem; line-height:1.55; color:var(--ink-2); border-top:1px solid var(--rule-2); margin-top:1.1rem; padding-top:.7rem; max-width:44rem}
+figcaption .cap-no{font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.1em; color:var(--gold); margin-right:.5rem}
+.engraving{display:block; width:100%; height:auto; max-width:100%; color:var(--ink)}
+.scroller{overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch; max-width:100%}
+.scroller > svg{min-width:520px}
+.scroller > table{min-width:520px}
+
+/* contents */
+.toc{border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); padding:1.2rem 0; margin:2.4rem 0 3.4rem}
+.toc ol{list-style:none; margin:0; padding:0; display:grid; gap:.36rem; grid-template-columns:1fr}
+@media (min-width:720px){.toc ol{grid-template-columns:1fr 1fr; column-gap:2.6rem}}
+.toc li{display:flex; align-items:baseline; gap:.5rem; font-size:.9rem}
+.toc .n{font-family:"IM Fell English SC",Georgia,serif; color:var(--gold); font-size:.76rem; letter-spacing:.09em; min-width:3.6em}
+.toc .dots{flex:1 1 auto; border-bottom:1px dotted var(--rule); transform:translateY(-.22em); min-width:1rem}
+.toc a{text-decoration:none}
+.toc a:hover .t{text-decoration:underline; text-underline-offset:.2em}
+
+/* tables */
+table{border-collapse:collapse; width:100%; font-size:.86rem; line-height:1.45}
+caption{text-align:left; font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.1em; color:var(--gold); font-size:.76rem; padding-bottom:.5rem}
+th,td{text-align:left; padding:.42rem .7rem .42rem 0; vertical-align:baseline; border-bottom:1px solid var(--rule-2)}
+thead th{font-family:"IM Fell English SC",Georgia,serif; font-weight:400; letter-spacing:.08em; font-size:.74rem; color:var(--ink-3); border-bottom:1px solid var(--rule); white-space:nowrap}
+tbody tr:last-child td{border-bottom:1px solid var(--rule)}
+tbody tr.grp td{border-bottom:0; padding-top:1rem; font-family:"IM Fell English SC",Georgia,serif; letter-spacing:.1em; font-size:.72rem; color:var(--gold)}
+td .glyph{font-size:1.05rem}
+.swatch{display:inline-block; width:.62em; height:.62em; border-radius:50%; margin-right:.42em; vertical-align:.02em}
+
+.colophon{border-top:1px solid var(--rule); padding-top:1.6rem; margin-top:3rem; font-size:.84rem; color:var(--ink-2)}
+.grid2{display:grid; gap:1.6rem; grid-template-columns:1fr}
+@media (min-width:820px){.grid2{grid-template-columns:1fr 1fr; gap:2.4rem}}
+.grid2 > *, .plate > *, main > *{min-width:0}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}}
+
+.rh-home{
+  font-family:"IM Fell English SC",Georgia,serif; font-size:.76rem; letter-spacing:.1em;
+  color:var(--ink-2); text-decoration:none; white-space:nowrap;
+  border:1px solid var(--rule); padding:.2rem .55rem .24rem; flex:none;
+  transition:background .2s ease,color .2s ease,border-color .2s ease;
+}
+.rh-home:hover{background:var(--ink); color:var(--field); border-color:var(--ink)}
+.rh-home:focus-visible{outline:2px solid var(--focus); outline-offset:2px}
+@media (max-width:560px){.runninghead label{display:none} .runninghead .rh-title:first-of-type{display:none} .runninghead{gap:.6rem} .rh-nav{min-width:0; flex:0 1 11rem; max-width:11rem}}
+
+/* the English name of each plate, set beneath it */
+figcaption .en-name{font-family:"IM Fell English",Georgia,serif; font-style:italic; font-size:1.02rem; color:var(--ink); letter-spacing:.01em}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<header class="runninghead">
+  <a class="rh-home" href="index.html" aria-label="Back to the three books">&#8592; Index Librorum</a>
+  <span class="rh-title">De Harmonia Restituta &nbsp;·&nbsp; Liber Primus</span>
+  <span class="rh-spacer"></span>
+  <label for="cantoNav" class="rh-title" style="letter-spacing:.14em">Contents</label>
+  <select id="cantoNav" class="rh-nav" aria-label="Go to section">
+    <option value="">— contents —</option>
+  </select>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════ FRONTISPIECE ══════ -->
+<section class="front" id="frontispiece">
+  <div class="volume">De Harmonia Restituta &nbsp;·&nbsp; Liber Primus</div>
+  <h1>De Harmonia Restituta</h1>
+  <div class="sub">A Treatise on the Restitution of the Cosmic Monochord,<br>the Vanity of the Empirical Discord,<br>and the Reawakening of the Hermetic Symphony</div>
+
+  <figure>
+    <svg class="engraving" viewBox="0 0 360 486" role="img" aria-label="The severed monochord: the divine hand's string, broken at mid-span, its two ends hanging slack over a soundboard whose seven planetary divisions remain engraved but unreachable.">
+      <g fill="none" stroke="currentColor" stroke-width="1">
+        <!-- the monad, still radiant -->
+        <g stroke="var(--gold)">
+          <path d="M180 26 L206 74 L154 74 Z"/>
+          <circle cx="180" cy="60" r="5.5"/>
+          <g stroke-width=".7" opacity=".85">
+            <path d="M180 14 v-8 M150 22 l-5 -7 M210 22 l5 -7 M136 50 l-9 -3 M224 50 l9 -3 M139 74 l-10 4 M221 74 l10 4"/>
+          </g>
+        </g>
+        <!-- the peg, unwound -->
+        <circle cx="180" cy="94" r="6.5"/>
+        <path d="M169.6 88 l-7.8 -4.5 M190.4 100 l7.8 4.5 M185.2 88.7 l3 -5.2" stroke-width="1"/>
+        <!-- soundboard -->
+        <path d="M152 104 V 416 M208 104 V 416" stroke="var(--rule)" stroke-width=".8"/>
+        <!-- the divisions remain, but no ratio is written against them -->
+        <g stroke="var(--rule)" stroke-width=".8">
+          <path d="M152 110 H208"/><path d="M152 138 H208"/><path d="M152 189 H208"/>
+          <path d="M152 234 H208"/><path d="M152 285 H208"/><path d="M152 313 H208"/>
+          <path d="M152 359 H208"/><path d="M152 410 H208"/>
+        </g>
+        <!-- the severed string: the upper length, slack from the peg -->
+        <path d="M180 100 C 184 142 173 178 179 214" stroke-width="1.4"/>
+        <path d="M175 208 l6 3 l-6 3 l6 3" stroke-width="1.2"/>
+        <!-- and the lower length, curled back from the bridge -->
+        <path d="M180 416 C 150 382 208 330 176 270" stroke-width="1.4"/>
+        <path d="M171 276 l6 -3 l-6 -3 l6 -3" stroke-width="1.2"/>
+        <!-- bridge and earth -->
+        <path d="M168 420 L180 408 L192 420 Z" fill="var(--field)"/>
+        <circle cx="180" cy="452" r="14"/>
+        <path d="M166 452 h28 M180 438 v28"/>
+      </g>
+      <g font-family="Noto Sans Symbols 2, Segoe UI Symbol, serif" font-size="15" fill="var(--ink-3)" text-anchor="end">
+        <text x="142" y="115">☉</text><text x="142" y="143">♄</text><text x="142" y="194">♃</text>
+        <text x="142" y="239">♂</text><text x="142" y="290">♀</text><text x="142" y="318">☿</text>
+        <text x="142" y="364">☽</text><text x="142" y="415">⊕</text>
+      </g>
+      <text x="238" y="245" font-family="Spectral, serif" font-style="italic" font-size="10.5" fill="var(--ink-3)">the break</text>
+      <path d="M234 241 C 218 238 206 240 198 242" fill="none" stroke="var(--ink-3)" stroke-width=".7"/>
+      <text x="180" y="482" text-anchor="middle" font-family="IM Fell English SC, Georgia, serif" font-size="9" letter-spacing="1.4" fill="var(--gold)">Monochordum Sectum</text>
+    </svg>
+  </figure>
+
+  <div class="imprint">
+    Charles Hadley &nbsp;·&nbsp; Author, Publisher, Editor<br>
+    Dedicated to Robert Fludd of Bearsted<br>
+    Anno MMXXVI
+  </div>
+</section>
+
+<div class="ornament">❧ &nbsp; ❦ &nbsp; ❧</div>
+
+<nav class="toc" id="index" aria-label="Contents">
+  <p class="rubric" style="margin-bottom:.9rem">Index Capitum &nbsp;— Contents</p>
+  <ol id="tocList"><li><span class="n">Praefatio</span><a href="#praefatio"><span class="t">The Lineage of the Harmonic Tradition</span></a><span class="dots"></span></li><li><span class="n">Liber I</span><a href="#liber-i"><span class="t">The Severed String</span></a><span class="dots"></span></li><li><span class="n">Cap. I</span><a href="#cap-1"><span class="t">The Illusion of the Continuous Gradient</span></a><span class="dots"></span></li><li><span class="n">Cap. II</span><a href="#cap-2"><span class="t">The Vindication of the Dark Enigmas</span></a><span class="dots"></span></li><li><span class="n">Cap. III</span><a href="#cap-3"><span class="t">The Cybernetic Microcosm</span></a><span class="dots"></span></li><li><span class="n">Cap. IV</span><a href="#cap-4"><span class="t">The Temporal Rhythm</span></a><span class="dots"></span></li><li><span class="n">Cap. V</span><a href="#cap-5"><span class="t">On the Celestial World</span></a><span class="dots"></span></li></ol>
+</nav>
+
+<!-- ══════════════════════════════════════ PRAEFATIO ════════ -->
+<article class="canto" id="praefatio" data-canto="Praefatio" data-title="The Lineage of the Harmonic Tradition">
+  <div class="canto-head">
+    <span class="canto-no">Praefatio</span>
+    <h2 class="canto-title">The Lineage of the Harmonic Tradition</h2>
+  </div>
+
+  <div class="measure">
+    <p class="drop">The concept of a musical universe — a cosmos whose very structure is governed by harmonic proportions — has served as a foundational pillar of Western esoteric, philosophical, and scientific thought for over two millennia. To engage with the harmonic and geometric laws of the solar system is to step into a continuum of inquiry that bridges mathematics, theology, and astronomy. This unbroken lineage, stretching from the mystery schools of antiquity to the dawn of the scientific revolution, provides the essential framework for understanding the culminating triumph of Johannes Kepler.</p>
+
+    <div class="era">
+      <div class="era-head"><h4>Antiquity: The Foundations of Cosmic Harmony</h4><span class="span">6th C. BCE – 5th C. CE</span></div>
+      <p>The origins of this tradition rest with Pythagoras (c. 570–495 BCE), who formulated the groundbreaking theory that the mathematical proportions governing audible musical intervals also dictate planetary distances and cosmic orbits — the Music of the Spheres. Though no written works of Pythagoras survive, his philosophy was immortalized and expanded by Plato (c. 428–348 BCE). In the <em>Timaeus</em>, Plato transmitted this Pythagorean cosmology, famously describing a World Soul constructed out of harmonic ratios (1:2:4:8 and 1:3:9:27) that bind the physical universe.</p>
+      <p>In the early centuries of the Common Era, a succession of scholars systematically codified these theoretical frameworks. Nicomachus of Gerasa (c. 60–120 CE) mapped the seven classical planets directly to specific pitches on the diatonic heptachord in his <em>Manual of Harmonics</em>. Shortly after, Theon of Smyrna (c. 70–135 CE) detailed Pythagorean tuning, string-length ratios, and planetary distance calculations in his guide to understanding Plato. This systematization reached a mathematical peak with Ptolemy’s (c. 100–170 CE) <em>Harmonics</em>, which rigorously mapped pitch ratios to zodiacal aspects, planetary orbits, and the faculties of the human soul.</p>
+      <p>Through late antiquity, Neoplatonists preserved and refined these theories. Porphyry of Tyre (c. 234–305 CE) wrote a vital commentary on Ptolemy’s physical acoustics, while Aristides Quintilianus (c. 3rd–4th Century CE) dedicated Book III of <em>On Music</em> to synthesizing how musical proportions structure the physical universe and bodily humors. Ultimately, Macrobius (c. 5th Century CE) popularized these Neoplatonic planetary pitch ratios across Western Europe through his <em>Commentary on the Dream of Scipio</em>.</p>
+    </div>
+
+    <div class="era">
+      <div class="era-head"><h4>The Middle Ages &amp; Islamic Golden Age</h4><span class="span">6th – 14th Century</span></div>
+      <p>The transmission of harmonic cosmology into the medieval era was anchored by Boethius (c. 477–524 CE). His <em>De institutione musica</em> standardized theory into three interdependent tiers: <em>Musica Mundana</em> (the macrocosmic harmony of the spheres), <em>Musica Humana</em> (the microcosmic balance of the human body and soul), and <em>Musica Instrumentalis</em> (audible sound).</p>
+      <p>Simultaneously, the Islamic Golden Age deeply enriched this tradition. Al-Kindi (c. 801–873 CE) forged intricate links between musical modes, stringed instruments, planetary spheres, elements, and seasons across multiple epistles. Al-Farabi (c. 872–950 CE) further systematized Arabic acoustics and pitch relationships within a rigorous Aristotelian and Neoplatonic framework in his <em>Great Book of Music</em>. The esoteric Ikhwan al-Safa (Brethren of Purity, 10th Century CE) expanded on the therapeutic nature of this cosmology, postulating that celestial rotations generate a continuous heavenly melody, which human instruments attempt to mirror to heal earthly souls. By the 14th century, these converging streams were condensed by Johannes de Muris (c. 1290–1355 CE) into <em>Musica speculativa</em>, ensuring Boethian cosmology remained the standard in European university education.</p>
+    </div>
+
+    <div class="era">
+      <div class="era-head"><h4>The Renaissance: Proportions, Magic, and Healing</h4><span class="span">15th – 16th Century</span></div>
+      <p>The Renaissance witnessed a revival of applied harmonic theory, blending cosmology with medicine, architecture, and Hermetic magic. Marsilio Ficino (1433–1499) extended Boethian theory into active astrological music therapy, famously composing and singing Orphic hymns tuned to align the human spirit with planetary frequencies in his <em>Three Books on Life</em>. Franchinus Gaffurius (1451–1522) synthesized classical Greek tuning with Renaissance Neoplatonism, producing iconic cosmological diagrams that unified Apollo, the Muses, planetary spheres, and musical modes.</p>
+      <p>This era also saw harmonic proportions applied to physical space. The Franciscan philosopher Francesco Giorgi (1466–1540) argued in <em>De Harmonia Mundi Totius</em> that universal design and ideal earthly architecture must be structured on Pythagorean musical ratios (2:1, 3:2, 4:3). Shortly thereafter, Heinrich Cornelius Agrippa (1486–1535) embedded celestial scales directly into Hermetic natural magic, mapping planetary pitches and elemental proportions in his <em>Three Books of Occult Philosophy</em>.</p>
+    </div>
+
+    <div class="era">
+      <div class="era-head"><h4>Early Modernity: The Kepler–Fludd Debate</h4><span class="span">17th Century</span></div>
+      <p>The culmination — and ultimate bifurcation — of the harmonic tradition occurred in the early 17th century through the fierce intellectual clash between Johannes Kepler (1571–1630) and the English Rosicrucian apologist Robert Fludd (1574–1637).</p>
+      <p>Fludd defended the ancient Hermetic and Pythagorean archetypes. In <em>Utriusque Cosmi Historia</em> (1621) and <em>Monochordon Mundi</em> (1622), he demonstrated the visual and philosophical symbol of the Divine Monochord — a universe tuned by the hand of God through static, immutable proportions.</p>
+      <p>Kepler, however, demanded empirical rigor. In <em>Harmonices Mundi</em> (1619) and his subsequent <em>Apologia</em> (1622) against Fludd, Kepler transitioned the tradition from static symbolism to dynamic physics. Utilizing Tycho Brahe’s observational data, Kepler calculated that the cosmos produces a dynamic, polyphonic harmony formed not by fixed spatial distances, but by the physical angular velocities of the planets at their perihelion and aphelion.</p>
+    </div>
+  </div>
+
+  <div class="plate" id="figura-1">
+    <div class="plate-head">
+      <span class="plate-no">Figura I</span>
+      <h3 class="plate-title">Linea Traditionis</h3>
+    </div>
+    <figure>
+      <div class="scroller">
+      <table>
+        <caption>Auctores — the transmitters named in this preface</caption>
+        <thead><tr><th>Figure</th><th>Dates</th><th>Principal work</th><th>What was added</th></tr></thead>
+        <tbody>
+          <tr class="grp"><td colspan="4">Antiquity — 6th C. BCE to 5th C. CE</td></tr>
+          <tr><td>Pythagoras</td><td class="num">c. 570–495 BCE</td><td class="faint">—</td><td>Musical proportion as the law of orbits</td></tr>
+          <tr><td>Plato</td><td class="num">c. 428–348 BCE</td><td><em>Timaeus</em></td><td>The World Soul built of 1:2:4:8 and 1:3:9:27</td></tr>
+          <tr><td>Nicomachus of Gerasa</td><td class="num">c. 60–120 CE</td><td><em>Manual of Harmonics</em></td><td>The seven planets onto the diatonic heptachord</td></tr>
+          <tr><td>Theon of Smyrna</td><td class="num">c. 70–135 CE</td><td class="faint">Guide to Plato</td><td>String-length ratios and planetary distances</td></tr>
+          <tr><td>Ptolemy</td><td class="num">c. 100–170 CE</td><td><em>Harmonics</em></td><td>Pitch ratios bound to zodiacal aspects and the soul</td></tr>
+          <tr><td>Porphyry of Tyre</td><td class="num">c. 234–305 CE</td><td class="faint">Commentary on Ptolemy</td><td>The physical acoustics of the tradition</td></tr>
+          <tr><td>Aristides Quintilianus</td><td class="num">c. 3rd–4th C. CE</td><td><em>On Music</em>, Bk. III</td><td>Proportion structuring universe and humors alike</td></tr>
+          <tr><td>Macrobius</td><td class="num">c. 5th C. CE</td><td><em>Dream of Scipio</em></td><td>Neoplatonic planetary pitches carried into the West</td></tr>
+          <tr class="grp"><td colspan="4">The Middle Ages &amp; Islamic Golden Age — 6th to 14th Century</td></tr>
+          <tr><td>Boethius</td><td class="num">c. 477–524 CE</td><td><em>De institutione musica</em></td><td>Mundana, Humana, Instrumentalis — the three tiers</td></tr>
+          <tr><td>Al-Kindi</td><td class="num">c. 801–873 CE</td><td class="faint">Epistles</td><td>Modes bound to spheres, elements and seasons</td></tr>
+          <tr><td>Al-Farabi</td><td class="num">c. 872–950 CE</td><td><em>Great Book of Music</em></td><td>Acoustics systematized on Aristotelian ground</td></tr>
+          <tr><td>Ikhwan al-Safa</td><td class="num">10th C. CE</td><td class="faint">Epistles</td><td>The heavenly melody as therapy for earthly souls</td></tr>
+          <tr><td>Johannes de Muris</td><td class="num">c. 1290–1355 CE</td><td><em>Musica speculativa</em></td><td>Boethian cosmology fixed in the universities</td></tr>
+          <tr class="grp"><td colspan="4">The Renaissance — 15th to 16th Century</td></tr>
+          <tr><td>Marsilio Ficino</td><td class="num">1433–1499</td><td><em>Three Books on Life</em></td><td>Planetary tuning practised as music therapy</td></tr>
+          <tr><td>Franchinus Gaffurius</td><td class="num">1451–1522</td><td class="faint">Cosmological diagrams</td><td>Apollo, Muses, spheres and modes in one figure</td></tr>
+          <tr><td>Francesco Giorgi</td><td class="num">1466–1540</td><td><em>De Harmonia Mundi Totius</em></td><td>Architecture built on 2:1, 3:2, 4:3</td></tr>
+          <tr><td>H. C. Agrippa</td><td class="num">1486–1535</td><td><em>Three Books of Occult Philosophy</em></td><td>Celestial scales embedded in natural magic</td></tr>
+          <tr class="grp"><td colspan="4">Early Modernity — the bifurcation, 17th Century</td></tr>
+          <tr><td><span class="swatch" style="background:var(--a-trin)"></span>Robert Fludd</td><td class="num">1574–1637</td><td><em>Utriusque Cosmi Historia</em> · <em>Monochordon Mundi</em></td><td>The Divine Monochord — static, immutable proportion</td></tr>
+          <tr><td><span class="swatch" style="background:var(--a-squa)"></span>Johannes Kepler</td><td class="num">1571–1630</td><td><em>Harmonices Mundi</em> · <em>Apologia</em></td><td>Angular velocity at perihelion and aphelion</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <figcaption><span class="cap-no">Figura I.</span> <span class="en-name">The Line of Tradition</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="measure">
+    <div class="era">
+      <div class="era-head"><h4>The Purpose of This Installment</h4></div>
+      <p>It is within the context of this profound historical transition that the current effort is situated. The purpose of this installment is to dedicate my own modern sonification of the planets to Robert Fludd, and to revive Robert Fludd’s monochord in the wake of its perceived defeat from the devastating attack dealt to it by none other than Johannes Kepler. By carefully understanding how modern technology indeed confirms the validity of Fludd’s Music of the Spheres over Kepler’s; while also giving due praise to Kepler for transforming the Music of the Spheres from a natural philosophy into the foundational mechanics of the modern solar system, the objective is to illuminate what Kepler despised as “dark enigmas”, which is none other than the true message of the Hermetic contribution to the Harmonic Tradition itself.</p>
+    </div>
+  </div>
+</article>
+
+<div class="ornament">❧ &nbsp; ❦ &nbsp; ❧</div>
+
+<!-- ══════════════════════════════════════ BOOK I ═══════════ -->
+<article class="canto" id="liber-i" data-canto="Liber I" data-title="The Severed String">
+  <div class="canto-head">
+    <span class="canto-no">Book I</span>
+    <h2 class="canto-title">The Severed String</h2>
+  </div>
+
+  <div class="measure">
+    <p class="drop">For four centuries, the instrument of the heavens has lain untuned, its strings slackened by the very hands that sought to measure them. In the dawn of the modern age, a great schism fractured the Harmonic Tradition. On one side stood the qualitative architect, Robert Fludd, who beheld the universe as a divine macrocosm vibrating with symbolic resonance. On the other stood Johannes Kepler, the master of the ellipse, who mapped the heavens with unprecedented geometric precision.</p>
+    <p>Yet, in Kepler’s victory lay the seeds of a profound aesthetic and spiritual tragedy. By reducing the celestial choir to a continuous gradient of orbital velocities, Kepler chained the music of the spheres to the microtonal dissonance of orbits. He divorced measurement from meaning. It is the purpose of this treatise to demonstrate the vanity of that separation, to redeem the so-called “dark enigmas” of the Hermetic philosophers, and to propose a new, rigorous synthesis wherein empirical calculation serves the sovereign architecture of beauty.</p>
+  </div>
+</article>
+
+<article class="canto" id="cap-1" data-canto="Cap. I" data-title="The Illusion of the Continuous Gradient">
+  <div class="canto-head">
+    <span class="canto-no">Chapter I</span>
+    <h2 class="canto-title">The Illusion of the Continuous Gradient</h2>
+  </div>
+
+  <div class="measure">
+    <p>Kepler recognized a fundamental problem within the Hermetic philosophy of his day: it often prioritized metaphysical interconnectedness while neglecting empirical, quantifiable embodiment — or in this case, quantifiable sonification. For this critique, Kepler deserves the highest honors of the astronomer. However, in his zeal to bind music to the raw physical data supplied in <em>Harmonices Mundi</em>, he committed a fatal error of reduction.</p>
+    <p>By assigning planetary pitches solely to the continuous fluctuations of orbital speed — finding consonance only at the mathematically rare extremes of aphelion and perihelion — Kepler engineered a system doomed to perpetual discord.</p>
+    <ul class="tenets">
+      <li><span class="lbl">The Error of Flux.</span> True musical harmony does not exist in a chaotic, unbroken sliding of pitch, nor does it find its home in mathematical approximations. Beauty requires structural bounds, discrete relational intervals, and tonal centers.</li>
+      <li><span class="lbl">The Myth of the Silent Heavens.</span> Because the simultaneous alignment of multiple planets at their orbital extremes is a statistical anomaly, any faithful sonification of Kepler’s model yields an agonizing, dissonant drone. The heavens, under his laws, cannot be said to sing in any meaningful sense of the word, for they are in a constant state of wailing.</li>
+    </ul>
+    <p>Kepler attacked Fludd’s emblematic “pictures” as mere poetry, failing to understand that these qualitative bounds — the “dark enigmas” as he called them in an attempt to conflate them with obfuscations of science — are indeed the very archetypal conditions required for consonance to manifest, and thus a necessary pre-condition for science and the arts alike.</p>
+  </div>
+
+  <div class="plate" id="figura-2">
+    <div class="plate-head">
+      <span class="plate-no">Figura II</span>
+      <h3 class="plate-title">Schisma</h3>
+    </div>
+    <figure>
+      <div class="scroller">
+      <svg class="engraving" viewBox="0 0 1000 410" role="img" aria-label="Two panels over one pitch grid. On the left, planetary pitches slide continuously and touch a consonant ratio only at the rare orbital extremes. On the right, the same underlying motion is passed through a gate, so the sounded pitch rests exactly on the consonant ratios and is otherwise silent.">
+        <defs>
+          <marker id="a1" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto">
+            <polygon points="0,0 8,3 0,6" fill="currentColor"/>
+          </marker>
+        </defs>
+
+        <!-- one shared pitch grid, broken at the divide -->
+        <g stroke="var(--rule-2)" stroke-width=".8" stroke-dasharray="3 4">
+          <path d="M96,70 H470 M570,70 H950"/>
+          <path d="M96,110 H470 M570,110 H950"/>
+          <path d="M96,150 H470 M570,150 H950"/>
+          <path d="M96,200 H470 M570,200 H950"/>
+          <path d="M96,240 H470 M570,240 H950"/>
+          <path d="M96,280 H470 M570,280 H950"/>
+          <path d="M96,320 H470 M570,320 H950"/>
+        </g>
+        <g font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-3)" text-anchor="end">
+          <text x="88" y="74">2:1</text><text x="88" y="114">5:3</text><text x="88" y="154">3:2</text>
+          <text x="88" y="204">4:3</text><text x="88" y="244">5:4</text><text x="88" y="284">9:8</text>
+          <text x="88" y="324">1:1</text>
+        </g>
+        <text x="40" y="196" font-family="IM Fell English SC, Georgia, serif" font-size="10" letter-spacing="1.2" fill="var(--ink-3)" transform="rotate(-90 40 196)">consonance</text>
+
+        <line x1="520" y1="40" x2="520" y2="368" stroke="var(--rule)" stroke-width="1"/>
+
+        <!-- ── LEFT: Kepler ── -->
+        <text x="96" y="42" font-family="IM Fell English SC, Georgia, serif" font-size="12" letter-spacing="1.3" fill="var(--a-squa)">Kepler — the continuous gradient</text>
+        <path d="M96,300 C 150,214 196,268 250,182 S 340,124 400,208 S 452,258 470,196"
+              fill="none" stroke="var(--a-squa)" stroke-width="1.5"/>
+        <g fill="none" stroke="var(--a-squa)" stroke-width="1.2" opacity=".45">
+          <path d="M96,178 C 142,252 192,148 240,258 S 332,300 390,232 S 442,152 470,238"/>
+          <path d="M96,252 C 162,302 212,192 262,298 S 352,212 412,288 S 452,318 470,272"/>
+        </g>
+        <circle cx="219" cy="240" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <circle cx="371" cy="150" r="4" fill="none" stroke="currentColor" stroke-width="1.2"/>
+        <text x="219" y="358" text-anchor="middle" font-family="Spectral, serif" font-style="italic" font-size="9.5" fill="var(--ink-3)">perihelion</text>
+        <path d="M219,348 V 248" stroke="var(--ink-3)" stroke-width=".7" stroke-dasharray="2 3" fill="none"/>
+        <text x="371" y="358" text-anchor="middle" font-family="Spectral, serif" font-style="italic" font-size="9.5" fill="var(--ink-3)">aphelion</text>
+        <path d="M371,348 V 158" stroke="var(--ink-3)" stroke-width=".7" stroke-dasharray="2 3" fill="none"/>
+        <text x="283" y="392" text-anchor="middle" font-family="Spectral, serif" font-style="italic" font-size="11" fill="var(--a-squa)">the pitch never rests — consonance only where the curve happens to cross</text>
+
+        <!-- ── RIGHT: Fludd ── -->
+        <text x="570" y="42" font-family="IM Fell English SC, Georgia, serif" font-size="12" letter-spacing="1.3" fill="var(--a-trin)">Fludd — the discrete gate</text>
+        <!-- the same motion, now only an occasion -->
+        <path d="M570,300 C 624,214 670,268 724,182 S 814,124 874,208 S 926,258 950,196"
+              fill="none" stroke="var(--ink-3)" stroke-width=".9" stroke-dasharray="4 4" opacity=".7"/>
+        <!-- the gate bands -->
+        <g fill="var(--a-trin)" opacity=".1">
+          <rect x="628" y="58" width="58" height="286"/>
+          <rect x="742" y="58" width="58" height="286"/>
+          <rect x="858" y="58" width="58" height="286"/>
+        </g>
+        <!-- what is actually sounded -->
+        <g fill="none" stroke="var(--a-trin)" stroke-width="2.4" stroke-linecap="round">
+          <path d="M628,240 H686"/>
+          <path d="M742,150 H800"/>
+          <path d="M858,200 H916"/>
+        </g>
+        <g font-family="Noto Sans Symbols 2, serif" font-size="15" fill="var(--a-trin)" text-anchor="middle">
+          <text x="657" y="230">⚹</text><text x="771" y="140">△</text><text x="887" y="190">□</text>
+        </g>
+        <text x="657" y="370" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-3)">gate open</text>
+        <text x="714" y="370" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-3)">shut</text>
+        <text x="771" y="370" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-3)">open</text>
+        <text x="829" y="370" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-3)">shut</text>
+        <text x="887" y="370" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--ink-3)">open</text>
+        <text x="760" y="392" text-anchor="middle" font-family="Spectral, serif" font-style="italic" font-size="11" fill="var(--a-trin)">the exact ratio, or silence — and nothing whatever between them</text>
+      </svg>
+      </div>
+      <figcaption><span class="cap-no">Figura II.</span> <span class="en-name">The Schism</span></figcaption>
+    </figure>
+  </div>
+</article>
+
+<article class="canto" id="cap-2" data-canto="Cap. II" data-title="The Vindication of the Dark Enigmas">
+  <div class="canto-head">
+    <span class="canto-no">Chapter II</span>
+    <h2 class="canto-title">The Vindication of the Dark Enigmas</h2>
+  </div>
+
+  <div class="measure">
+    <p>To restore beauty to the cosmos, we must resurrect Fludd’s qualitative correspondences as the interpretive lens through which raw celestial data becomes music. Nature operates through continuous motion, but Harmony operates through discrete, symbolic relationship.</p>
+    <p>The restitution of the Hermetic worldview rests upon three primary axioms:</p>
+
+    <div class="axiom">
+      <span class="ax-no">Axiom the First</span>
+      <h4>The Solar Monad and the Tonal Anchor</h4>
+      <p>In the true Hermetic symphony, the Sun acts as the Coryphaeus, the master of the choir. Sol establishes the fundamental Tonic Pitch and determines the Key based upon its residency within the Zodiacal signs. Just as the Monad anchors all numerological progression, the Solar placement anchors the diatonic scale, ensuring that the listener’s ear remains grounded upon a stable harmonic floor.</p>
+    </div>
+
+    <div class="axiom">
+      <span class="ax-no">Axiom the Second</span>
+      <h4>The Kairós of the Aspect — the Binary Trigger</h4>
+      <p>The continuous sliding of orbital mechanics must yield to the sacred geometry of the astrological aspect. When planetary bodies align within specific orb tolerances — such as forming a Trine (120°), a Square (90°), or an Opposition (180°) — they cross a threshold of activation.</p>
+      <ul class="tenets">
+        <li>These are pure examples of distinct, binary states of relation.</li>
+        <li>The aspect acts as a celestial gate: when the angle is struck, the corresponding harmonic interval (the Fifth, the Fourth, the Octave) rings out with total clarity.</li>
+      </ul>
+    </div>
+
+    <div class="axiom">
+      <span class="ax-no">Axiom the Third</span>
+      <h4>The Alchemical Quality of Sound — Waveforms and Effects</h4>
+      <p>To honor the Hermetic doctrine of macrocosmic qualities, the sonification must embody the elemental nature of the heavens. A planet is a character of the Divine Mind, rather than merely a locus of gravity. Therefore, their signals must be shaped accordingly:</p>
+      <ul class="tenets">
+        <li>The elemental nature of the Zodiac dictates the waveform — the stability of Earth (Sine), the fluid depth of Water (Triangle), the sharp volatility of Fire (Sawtooth), and the expansive breath of Air (Square).</li>
+        <li>The planetary bodies themselves color the tone through specific spatial and temporal modulations: the structural bounds of Saturn impart Echo (Delay); the martial heat of Mars imparts Saturation (Distortion); the liquid grace of Venus imparts undulating Phase (Flanger).</li>
+      </ul>
+    </div>
+  </div>
+</article>
+
+<article class="canto" id="cap-3" data-canto="Cap. III" data-title="The Cybernetic Microcosm">
+  <div class="canto-head">
+    <span class="canto-no">Chapter III</span>
+    <h2 class="canto-title">The Cybernetic Microcosm</h2>
+  </div>
+
+  <div class="measure">
+    <p>The ultimate failure of the Keplerian model was that it left man as a passive, deaf observer in a dissonant, mechanical universe. Fludd knew that the Microcosm (Man) must consciously participate in the Macrocosm (the Heavens).</p>
+    <p>By marrying precise astronomical computation (the legacy of Kepler) with discrete archetypal triggers and elemental waveforms (the legacy of Fludd), we construct a resonant bridge. When the human operator introduces their own agency — taking up the diatonic instrument, the Cybernetic Tuning Fork, to play alongside the generative drone of the solar system — the final circuit is closed.</p>
+    <p>The empirical rigor of modern calculation provides the flawless machinery upon which the ancient, beautiful archetypes can finally, audibly sing. The dark enigmas are thus illuminated by giving them a voice and allowing them to sing the Holy Symphony.</p>
+  </div>
+</article>
+
+<article class="canto" id="cap-4" data-canto="Cap. IV" data-title="The Temporal Rhythm">
+  <div class="canto-head">
+    <span class="canto-no">Chapter IV</span>
+    <h2 class="canto-title">The Temporal Rhythm</h2>
+  </div>
+
+  <div class="measure">
+    <p>While the Zodiac and the geometric aspects dictate the tonal base and harmonic ratios of the cosmos, the heavens should not be conceptualized as a static architecture. Rather, The Music of the Spheres is an unfolding temporal movement of progression. To capture the living breath of the macrocosm, the cybernetic engine must not only calculate spatial geometry but also submit to the sacred governance of Time.</p>
+    <p>The primary division of temporal authority is derived from the Chaldean sequence of the planets, which establishes the ruling intelligence of each day. It is this diurnal ruler that determines the prevailing Mode — the emotional and mathematical “scale” through which the Sun’s tonic drone and the aspect ratios are filtered and experienced.</p>
+
+    <div class="axiom">
+      <span class="ax-no">The First</span>
+      <h4>The Governance of the First Planetary Hour</h4>
+      <p>Every diurnal cycle is inaugurated by the planetary intelligence that rules its first hour at dawn. This sovereign body acts as the day’s filter, bending the diatonic possibilities of the system into its own modal image. While the Sun determines the pure fundamental pitch (the Key) based on its Zodiacal position, the Day Ruler dictates the sequence of whole and half steps (the Mode) available to both the generative SuperCollider engine and the human operator of the Cybernetic Tuning Fork.</p>
+    </div>
+
+    <div class="axiom">
+      <span class="ax-no">The Second</span>
+      <h4>The Practical Function of the Modes</h4>
+      <p>Modal correspondences act as a real, practical function within the engine’s logic. By mathematically locking the allowed pitches of the day to the specific diatonic intervals of the ruling mode, the cybernetic loom ensures that the “mood” of the eternal drone shifts appropriately from day to day, even if the Sun remains in the same Zodiacal sign.</p>
+    </div>
+  </div>
+
+  <div class="plate" id="figura-3">
+    <div class="plate-head">
+      <span class="plate-no">Figura III</span>
+      <h3 class="plate-title">Tabula Modorum</h3>
+    </div>
+    <figure>
+      <div class="scroller">
+      <table>
+        <caption>Dies — the diurnal rulers and their modes</caption>
+        <thead><tr><th>Day</th><th>Ruler</th><th>Sym.</th><th>Mode</th><th>Character</th></tr></thead>
+        <tbody>
+          <tr><td>Sunday</td><td>Sol</td><td class="glyph">☉</td><td><span class="swatch" style="background:var(--m-ion)"></span>Ionian</td><td>The pure major scale. Radiant, absolute, and unclouded.</td></tr>
+          <tr><td>Monday</td><td>Luna</td><td class="glyph">☽</td><td><span class="swatch" style="background:var(--m-aeo)"></span>Aeolian</td><td>The natural minor. Receptive, tidal, and marked by a flat third, sixth, and seventh, drawing the ear inward.</td></tr>
+          <tr><td>Tuesday</td><td>Mars</td><td class="glyph">♂</td><td><span class="swatch" style="background:var(--m-loc)"></span>Locrian</td><td>The most volatile and severed mode, featuring a diminished fifth that demands resolution, mirroring martial heat and friction.</td></tr>
+          <tr><td>Wednesday</td><td>Mercury</td><td class="glyph">☿</td><td><span class="swatch" style="background:var(--m-mix)"></span>Mixolydian</td><td>A major scale with a flattened seventh, creating a sense of forward motion, transit, and unresolved inquiry.</td></tr>
+          <tr><td>Thursday</td><td>Jupiter</td><td class="glyph">♃</td><td><span class="swatch" style="background:var(--m-lyd)"></span>Lydian</td><td>Marked by the augmented fourth (+4). Expansive, majestic, and reaching outward into cathedral space.</td></tr>
+          <tr><td>Friday</td><td>Venus</td><td class="glyph">♀</td><td><span class="swatch" style="background:var(--m-dor)"></span>Dorian</td><td>A minor mode with a raised sixth. Symmetrical, balanced, sweet, and aesthetically perfectly proportioned.</td></tr>
+          <tr><td>Saturday</td><td>Saturn</td><td class="glyph">♄</td><td><span class="swatch" style="background:var(--m-phr)"></span>Phrygian</td><td>Defined by the minor second (♭2). Dark, heavy, bounded, and ancient, forcing the scale downward into strict structural limits.</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <figcaption><span class="cap-no">Figura III.</span> <span class="en-name">The Table of the Modes</span></figcaption>
+    </figure>
+  </div>
+
+  <div class="measure">
+    <p>Thus, if the system is activated on a Friday while the Sun resides in Aries, the system operates mathematically in C Dorian. The generative aspect tones and the playable lead instrument are strictly quantized to this ancient scale, weaving the macrocosmic geometry into the temporal fabric of the present day.</p>
+  </div>
+</article>
+
+<article class="canto" id="cap-5" data-canto="Cap. V" data-title="On the Celestial World">
+  <div class="canto-head">
+    <span class="canto-no">Chapter V</span>
+    <h2 class="canto-title">On the Celestial World</h2>
+  </div>
+
+  <div class="measure">
+    <p>The Universal Monochord vibrates eternally in the heavens, but Harmony, if it is to be perceived, requires a localized subject. The macrocosm must be grounded within the microcosm. To accomplish this, the continuous objective data provided by the astronomical arrays must be mathematically projected onto a local frame of reference.</p>
+
+    <div class="axiom">
+      <span class="ax-no">The First</span>
+      <h4>The Architecture of the Sky Wheel</h4>
+      <p>The engine achieves this grounding through the establishment of a localized Sky Wheel — a 360-degree coordinate system tailored entirely to the geographic coordinates of the listener. Rather than hovering in an abstract, objective void, the system anchors its 0° point strictly at the eastern horizon (the Ascendant).</p>
+      <p>As the celestial bodies rise and set, they track counter-clockwise across this personalized frame. This ensures that the sonification is a direct translation of the heavens as they bear down upon the precise location of the operator.</p>
+    </div>
+
+    <div class="axiom">
+      <span class="ax-no">The Second</span>
+      <h4>The Conjunction of the Two Spheres</h4>
+      <p>When the geometry of the macrocosmic aspects (Trine, Square, Sextile) triggers the boolean gates defined in Book II (<em>Schemata Musicae</em>), they do so as they physically rotate through the operator’s local Sky Wheel. The cybernetic system thus becomes a true astrosophical mirror: the universal ratios of the heavens are detected, measured, and sounded relative to the eastern horizon of the earthly observer, perfectly binding the Above to the Below.</p>
+    </div>
+  </div>
+
+  <div class="plate" id="figura-4">
+    <div class="plate-head">
+      <span class="plate-no">Figura IV</span>
+      <h3 class="plate-title">Rota Horizontis</h3>
+    </div>
+    <figure>
+      <div style="max-width:560px;margin:0 auto">
+        <div class="scroller">
+        <svg class="engraving" viewBox="0 0 540 440" role="img" aria-label="A circle divided by a horizontal horizon line, with the zero point fixed at the eastern horizon on the left, marked Ascendant, and the opposite point marked Descendant; an arrow shows bodies tracking counter-clockwise across the frame, and the observer stands at the centre.">
+          <defs>
+            <marker id="a2" markerWidth="8" markerHeight="6" refX="7.5" refY="3" orient="auto">
+              <polygon points="0,0 8,3 0,6" fill="currentColor"/>
+            </marker>
+          </defs>
+          <circle cx="270" cy="220" r="150" fill="none" stroke="currentColor" stroke-width="1.1"/>
+          <circle cx="270" cy="220" r="158" fill="none" stroke="var(--rule)" stroke-width=".7"/>
+          <!-- degree ticks every 30 -->
+          <g stroke="var(--rule)" stroke-width=".8">
+            <path d="M270,62 v12 M270,378 v-12 M112,220 h12 M428,220 h-12"/>
+            <path d="M405,141 l-10,6 M405,299 l-10,-6 M135,141 l10,6 M135,299 l10,-6"/>
+            <path d="M349,85 l-6,10 M349,355 l-6,-10 M191,85 l6,10 M191,355 l6,-10"/>
+          </g>
+          <!-- the horizon -->
+          <path d="M96,220 H444" stroke="var(--gold)" stroke-width="1.1" stroke-dasharray="6 4"/>
+          <text x="96" y="210" font-family="IM Fell English SC, Georgia, serif" font-size="11.5" letter-spacing="1.2" fill="var(--gold)">ASC</text>
+          <text x="96" y="238" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-3)">0°</text>
+          <text x="444" y="210" text-anchor="end" font-family="IM Fell English SC, Georgia, serif" font-size="11.5" letter-spacing="1.2" fill="var(--gold)">DSC</text>
+          <text x="444" y="238" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-3)">180°</text>
+          <text x="270" y="50" text-anchor="middle" font-family="IM Fell English SC, Georgia, serif" font-size="10.5" letter-spacing="1.2" fill="var(--ink-3)">the visible half</text>
+          <text x="270" y="400" text-anchor="middle" font-family="IM Fell English SC, Georgia, serif" font-size="10.5" letter-spacing="1.2" fill="var(--ink-3)">beneath the earth</text>
+
+          <!-- counter-clockwise motion -->
+          <path d="M 270,52 A 168 168 0 0 0 104,205" fill="none" stroke="var(--p-lun)" stroke-width="1.2" marker-end="url(#a2)"/>
+          <text x="150" y="86" font-family="Spectral, serif" font-style="italic" font-size="11" fill="var(--p-lun)">counter-clockwise</text>
+
+          <!-- three bodies on the frame -->
+          <g>
+            <circle cx="163" cy="144" r="5.5" fill="var(--p-sol)"/>
+            <text x="150" y="128" text-anchor="end" font-family="Noto Sans Symbols 2, serif" font-size="15" fill="var(--p-sol)">☉</text>
+            <circle cx="345" cy="349" r="5" fill="var(--p-mar)"/>
+            <text x="360" y="360" font-family="Noto Sans Symbols 2, serif" font-size="15" fill="var(--p-mar)">♂</text>
+            <circle cx="398" cy="140" r="5" fill="var(--p-jov)"/>
+            <text x="412" y="132" font-family="Noto Sans Symbols 2, serif" font-size="15" fill="var(--p-jov)">♃</text>
+          </g>
+          <line x1="163" y1="144" x2="398" y2="140" stroke="var(--a-trin)" stroke-width="1.5"/>
+          <text x="280" y="134" text-anchor="middle" font-family="Noto Sans Symbols 2, serif" font-size="14" fill="var(--a-trin)">△</text>
+
+          <!-- the observer -->
+          <circle cx="270" cy="220" r="4" fill="currentColor"/>
+          <circle cx="270" cy="220" r="13" fill="none" stroke="var(--rule)" stroke-width=".8"/>
+          <text x="270" y="256" text-anchor="middle" font-family="IM Fell English SC, Georgia, serif" font-size="10.5" letter-spacing="1.2" fill="var(--gold)">the operator</text>
+          <text x="270" y="272" text-anchor="middle" font-family="Spectral, serif" font-style="italic" font-size="10" fill="var(--ink-3)">φ, λ</text>
+        </svg>
+        </div>
+      </div>
+      <figcaption><span class="cap-no">Figura IV.</span> <span class="en-name">The Wheel of the Horizon</span></figcaption>
+    </figure>
+  </div>
+</article>
+
+<div class="ornament">❧ &nbsp; ❦ &nbsp; ❧</div>
+
+<section class="colophon measure" id="colophon">
+  <p class="rubric">Colophon</p>
+  <p><strong>De Harmonia Restituta</strong>, <em>Liber Primus</em> — the Preface and Book I, <em>The Severed String</em>. The technical half of the treatise stands as <em>Liber Secundus</em>, <em>Schemata Musicae</em>, which carries the circuit and Hermetic schematics, the formal notation, the six tables of correspondence, and the engine’s own listings.</p>
+  <p>Set in the <span class="sc">Fell</span> types, cut for the University of Oxford in the 1670s and given to it by Bishop John Fell — the nearest living type to the presses that printed Fludd at Oppenheim — with <span class="sc">Spectral</span> for the reading text and <span class="sc">IBM Plex Mono</span> for the machine’s own voice. The colours of the seven, the aspects and the modes are the engine’s own.</p>
+  <p class="faint" style="font-size:.86rem">Dedicated, as the second book is dedicated, to Robert Fludd of Bearsted.</p>
+  <p class="faint" style="font-size:.86rem;margin-top:1.4rem">Charles Hadley · Anno MMXXVI</p>
+</section>
+
+</main>
+
+<script>
+(function(){
+  "use strict";
+  var esc=function(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");};
+  var cantos=[].slice.call(document.querySelectorAll("[data-canto]"));
+  var list=document.getElementById("tocList"), nav=document.getElementById("cantoNav");
+  if(list){
+    list.innerHTML=cantos.map(function(c){
+      return '<li><span class="n">'+esc(c.dataset.canto)+'</span><a href="#'+c.id+'"><span class="t">'+
+        esc(c.dataset.title)+'</span></a><span class="dots"></span></li>';
+    }).join("");
+  }
+  if(nav){
+    cantos.forEach(function(c){
+      var o=document.createElement("option");
+      o.value=c.id; o.textContent=c.dataset.canto+" — "+c.dataset.title;
+      nav.appendChild(o);
+    });
+    nav.addEventListener("change",function(){
+      var el=document.getElementById(nav.value);
+      if(el) el.scrollIntoView({behavior:"smooth",block:"start"});
+      nav.value="";
+    });
+  }
+})();
+</script>
+</body>
+</html>

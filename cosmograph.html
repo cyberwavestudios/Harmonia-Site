@@ -1,0 +1,1084 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23070911'/%3E%3Cpath d='M10 4v10a6 6 0 0 0 12 0V4M16 20v9' fill='none' stroke='%23E0B75A' stroke-width='2'/%3E%3C/svg%3E">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#efebf6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#120a24" media="(prefers-color-scheme: dark)">
+<title>Harmonia Cosmographica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif:wght@400;600&family=Noto+Sans+Symbols&family=Noto+Sans+Symbols+2&display=swap">
+<style>
+:root{
+  --bg:#efebf6; --surface:#fbfaff; --ink:#1c1330; --muted:#625a74; --line:#dcd4ea;
+  --violet:#7412d6; --gold:#a8740a; --chip:#e8def8;
+  --sym:"Noto Sans Symbols 2","Noto Sans Symbols","Segoe UI Symbol","Apple Symbols","DejaVu Sans",sans-serif;
+  --display:"Cormorant Garamond","Iowan Old Style",Georgia,serif;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --h:100dvh; --safety:0px; --usable:calc(var(--h) - var(--safety));
+}
+.embedded{--safety:88px}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#120a24; --surface:#1b1231; --ink:#f1ecfb; --muted:#a79dbd; --line:#30244b;
+    --violet:#b98cff; --gold:#f2c12e; --chip:#2a1c48;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#120a24; --surface:#1b1231; --ink:#f1ecfb; --muted:#a79dbd; --line:#30244b;
+  --violet:#b98cff; --gold:#f2c12e; --chip:#2a1c48;
+}
+*{box-sizing:border-box}
+html{height:100%;-webkit-text-size-adjust:100%}
+body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font:15px/1.55 var(--ui);-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+
+.app{height:var(--usable);max-width:900px;margin:0 auto;padding:10px 16px;display:flex;flex-direction:column;justify-content:center;gap:11px}
+.masthead{text-align:center}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(34px,8vw,68px);line-height:.95;margin:0}
+.lede{font-family:var(--display);font-style:italic;font-size:clamp(17px,3.2vw,21px);color:var(--muted);max-width:32em;margin:6px auto 0;line-height:1.35}
+
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding:1px;justify-content:center}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:0 0 auto;min-height:38px;padding:8px 15px;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;font:inherit;font-size:13.5px;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.chip[aria-pressed="true"]{background:var(--violet);border-color:var(--violet);color:#fff}
+
+.stage{position:relative;flex:0 0 auto;aspect-ratio:1;margin:0 auto;
+  width:clamp(150px, calc(var(--usable) - 250px), 100%);background:transparent;
+  touch-action:none;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;cursor:default}
+.stage.zoomed{cursor:grab}
+.stage.drag{cursor:grabbing}
+.stage svg{display:block;width:100%;height:100%}
+svg .hot{cursor:pointer}
+svg .hot:hover,svg .hot:focus-visible,svg .hot.sel{filter:url(#hl)}
+svg.busy .hot{filter:none}
+svg.busy{pointer-events:none}
+svg.busy .cheap{shape-rendering:optimizeSpeed}
+svg .hot.lit{animation:blink .8s ease-in-out 2}
+svg .hot:focus{outline:none}
+@keyframes blink{50%{opacity:.45}}
+@media (prefers-reduced-motion:reduce){svg .hot.lit{animation:none}}
+svg .sym{font-family:var(--sym)}
+svg .serif{font-family:"Noto Serif","Times New Roman",serif}
+svg .sans{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif}
+
+.zoom{position:absolute;right:9px;bottom:9px;display:flex;flex-direction:column;gap:7px}
+.zbtn{width:46px;height:46px;display:grid;place-items:center;border-radius:14px;border:1px solid rgba(255,255,255,.34);
+  background:rgba(9,3,20,.76);-webkit-backdrop-filter:blur(7px);backdrop-filter:blur(7px);color:#fff;font-size:23px;line-height:1;
+  box-shadow:0 4px 14px -6px rgba(0,0,0,.8);cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.zbtn:disabled{opacity:.3}
+
+.sheet{flex:0 0 auto;max-height:calc(var(--usable) * .4);display:flex;gap:13px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:13px 14px;
+  box-shadow:0 16px 36px -24px rgba(20,0,50,.75)}
+.rsym{flex:0 0 54px;height:54px;border-radius:50%;background:var(--chip);display:grid;place-items:center;font-family:var(--sym);font-size:26px;color:var(--violet);overflow:hidden;white-space:nowrap}
+.rsym.small{font-size:15px;font-family:var(--display);font-weight:600}
+.rbody{flex:1;min-width:0;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-y}
+.rgrp{font-family:var(--display);font-style:italic;font-size:15px;color:var(--gold)}
+.rtitle{font-family:var(--display);font-size:24px;font-weight:600;line-height:1.1;margin:0 0 2px}
+.rdesc{margin:0;color:var(--muted);font-size:14px;max-width:62ch}
+.go{display:inline-block;margin-top:5px;color:var(--violet);font-weight:600;text-decoration:none;font-size:14px}
+.go:hover{text-decoration:underline}
+.go[hidden]{display:none}
+.nav{display:flex;flex-direction:column;gap:6px}
+.navb{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font-size:20px;line-height:1;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.navb:hover{border-color:var(--violet);color:var(--violet)}
+
+.chip:focus-visible,.zbtn:focus-visible,.navb:focus-visible,a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+footer{flex:0 0 auto;text-align:center;color:var(--muted);font-size:12.5px}
+
+@media (min-width:1000px){
+  .app{max-width:1120px;display:grid;align-items:start;column-gap:24px;row-gap:12px;
+    grid-template-columns:minmax(0,1fr) 330px;
+    grid-template-rows:auto auto minmax(0,1fr) auto;
+    grid-template-areas:"head head" "chips chips" "stage sheet" "foot foot"}
+  .masthead{grid-area:head}
+  .chips{grid-area:chips}
+  .stage{grid-area:stage;align-self:center;justify-self:center;width:min(100%,calc(var(--usable) - 190px));aspect-ratio:1}
+  .sheet{grid-area:sheet;align-self:start;max-height:calc(var(--usable) - 190px);flex-direction:column;align-items:flex-start;gap:11px;padding:16px}
+  .rsym{flex:0 0 auto;width:54px}
+  .rtitle{font-size:26px}
+  .nav{flex-direction:row;gap:8px}
+  footer{grid-area:foot}
+}
+@media (max-width:760px){
+  .app{max-width:none;gap:8px;justify-content:flex-start;
+    padding:calc(7px + env(safe-area-inset-top)) 9px calc(9px + env(safe-area-inset-bottom))}
+  .embedded .app{padding:4px 9px 6px}
+  .embedded .masthead{display:none}
+  .masthead{display:flex;align-items:baseline;gap:9px;text-align:left;flex:0 0 auto}
+  .chips{flex:0 0 auto}
+  h1{font-size:23px}
+  .lede{display:none}
+  .chips{justify-content:flex-start}
+  .chip{min-height:34px;padding:6px 13px;font-size:13px}
+  .stage{width:clamp(150px, calc(var(--usable) - 245px), 100%)}
+  .sheet{max-height:calc(var(--usable) * .42);padding:11px 12px;gap:11px;border-radius:16px}
+  .rsym{flex-basis:44px;height:44px;font-size:22px}
+  .rtitle{font-size:20px}
+  .rdesc{font-size:13.5px}
+
+  .nav{flex-direction:column}
+  footer{display:none}
+}
+@media (max-width:900px) and (orientation:landscape){
+  .app{flex-direction:row;align-items:stretch;justify-content:flex-start;gap:10px;max-width:none;
+    padding:9px calc(9px + env(safe-area-inset-right)) calc(9px + env(safe-area-inset-bottom)) calc(9px + env(safe-area-inset-left))}
+  .embedded .app{padding:6px 8px}
+  .masthead{display:none}
+  .chips{flex-direction:column;justify-content:center;overflow:visible;flex:0 0 auto;padding:0}
+  .stage{flex:1 1 56%;width:auto;height:auto;aspect-ratio:auto;margin:0;min-width:0}
+  .embedded .masthead{display:none}
+  .sheet{flex:1 1 44%;max-height:var(--usable);margin:0;align-items:flex-start;min-height:0}
+  footer{display:none}
+  h1{display:none}
+
+  .nav{flex-direction:column;margin-top:2px}
+}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="masthead">
+    <h1>Harmonia Cosmographica</h1>
+    <p class="lede">Kabbalah, the zodiac, the golden ratio and the Standard Model in one image. Tap any symbol to see what it is.</p>
+  </div>
+
+  <div class="chips" role="group" aria-label="Move around the image" id="chips"></div>
+
+  <div class="stage" id="stage">
+    <svg id="cosmo" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-label="Harmonia Cosmographica. Tap a symbol to read what it is.">
+      <defs>
+          <filter id="hl" x="-40%" y="-40%" width="180%" height="180%">
+            <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="b"/>
+            <feFlood flood-color="#fff27a"/>
+            <feComposite in2="b" operator="in" result="g"/>
+            <feMerge><feMergeNode in="g"/><feMergeNode in="g"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="aura">
+            <stop offset="0" stop-color="#fff36a" stop-opacity="1"/>
+            <stop offset=".45" stop-color="#ffe62a" stop-opacity=".9"/>
+            <stop offset=".72" stop-color="#ffd900" stop-opacity=".3"/>
+            <stop offset="1" stop-color="#ffd900" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="gal">
+            <stop offset="0" stop-color="#000"/>
+            <stop offset=".7" stop-color="#151515"/>
+            <stop offset="1" stop-color="#777"/>
+          </radialGradient>
+          <radialGradient id="orb" cx=".38" cy=".32" r=".75">
+            <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+            <stop offset=".5" stop-color="#fff" stop-opacity="0"/>
+          </radialGradient>
+          <radialGradient id="kether" cx=".4" cy=".35" r=".7">
+            <stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#d9d9d9"/>
+          </radialGradient>
+          <radialGradient id="sky" gradientUnits="userSpaceOnUse" cx="500" cy="870" r="560">
+            <stop offset="0" stop-color="#f21ee0"/>
+            <stop offset=".3" stop-color="#f23f98"/>
+            <stop offset=".62" stop-color="#f2621e"/>
+            <stop offset="1" stop-color="#f06a18"/>
+          </radialGradient>
+          <radialGradient id="sundisk" cx=".45" cy=".4" r=".6">
+            <stop offset="0" stop-color="#fffa9a"/><stop offset="1" stop-color="#f8dd12"/>
+          </radialGradient>
+          <clipPath id="purpleClip"><rect x="0" y="500" width="1000" height="250"/></clipPath>
+          <clipPath id="plate"><rect x="0" y="0" width="1000" height="1000" rx="9"/></clipPath>
+        </defs>
+    </svg>
+    <div class="zoom">
+      <button class="zbtn" id="zin" type="button" aria-label="Zoom in">+</button>
+      <button class="zbtn" id="zout" type="button" aria-label="Zoom out">−</button>
+    </div>
+  </div>
+
+  <div class="sheet" id="sheet" aria-live="polite">
+    <div class="rsym small" id="rsym">&#x3A6;</div>
+    <div class="rbody">
+      <div class="rgrp" id="rgrp">Finding your way</div>
+      <div class="rtitle" id="rtitle">Tap any symbol</div>
+      <p class="rdesc" id="rdesc">Pinch or use + to zoom, drag to move, double-tap to zoom in on a spot. The arrows step from one symbol to the next.</p>
+      <a class="go" id="rgo" target="_blank" rel="noopener noreferrer" hidden>Read more on Wikipedia</a>
+    </div>
+    <div class="nav">
+      <button class="navb" id="prev" type="button" aria-label="Previous symbol">&#x2039;</button>
+      <button class="navb" id="next" type="button" aria-label="Next symbol">&#x203A;</button>
+    </div>
+  </div>
+
+  <footer>&#x201C;Read more&#x201D; opens English Wikipedia in a new tab. Artwork redrawn in vector from the original design.</footer>
+</div>
+
+<script>
+(function(){
+"use strict";
+const NS = "http://www.w3.org/2000/svg", VS = "\uFE0E";
+const W = "https://en.wikipedia.org/wiki/";
+const svg = document.getElementById("cosmo");
+
+const GROUPS = {
+  tree: "The Tree of Life",
+  forces: "Forces, elements and theories",
+  math: "Mathematics",
+  zodiac: "The zodiac",
+  planets: "The seven classical planets",
+  particles: "Standard Model particles",
+  night: "The night sky"
+};
+
+const ITEMS = [
+  // Tree of Life
+  {id:"tree", g:"tree", sym:"✡", label:"Tree of Life (Kabbalah)", wiki:"Tree_of_life_(Kabbalah)", desc:"The ten-sephirot diagram of Kabbalah, drawn in the Hermetic layout with its 22 connecting paths."},
+  {id:"einsof", g:"tree", sym:"✺", label:"Ain Soph Aur (the golden light)", wiki:"Ein_Sof", desc:"The limitless light glowing behind the Tree: the unmanifest source above Kether."},
+  {id:"kether", g:"tree", sym:"☉", label:"Kether", wiki:"Keter", desc:"The Crown, sephira 1. The dot in a circle marks the first point of manifestation."},
+  {id:"chokmah", g:"tree", sym:"⊕", label:"Chokmah", wiki:"Chokhmah", desc:"Wisdom, sephira 2, grey. The quartered circle stands for the sphere of the zodiac."},
+  {id:"binah", g:"tree", sym:"♄", label:"Binah", wiki:"Binah_(Kabbalah)", desc:"Understanding, sephira 3, black, attributed to Saturn."},
+  {id:"triad", g:"tree", sym:"△", label:"“The Triad” (tria prima)", wiki:"Tria_prima", desc:"The triangle in Binah bearing alchemical symbols: Paracelsus’s three principles of Salt, Sulphur and Mercury."},
+  {id:"daath", g:"tree", sym:"◌", label:"Da’at", wiki:"Da%27at", desc:"Knowledge, the hidden non-numbered sephira in the Abyss, drawn as a dashed circle."},
+  {id:"chesed", g:"tree", sym:"♃", label:"Chesed", wiki:"Chesed", desc:"Mercy, sephira 4: a blue square carrying Jupiter."},
+  {id:"geburah", g:"tree", sym:"♂", label:"Geburah", wiki:"Gevurah", desc:"Severity, sephira 5: a red pentagon carrying Mars."},
+  {id:"tiphareth", g:"tree", sym:"☉", label:"Tiphareth", wiki:"Tiferet", desc:"Beauty, sephira 6: a yellow hexagon carrying the Sun."},
+  {id:"netzach", g:"tree", sym:"♀", label:"Netzach", wiki:"Netzach", desc:"Victory, sephira 7: a green heptagon carrying Venus."},
+  {id:"hod", g:"tree", sym:"☿", label:"Hod", wiki:"Hod_(Kabbalah)", desc:"Splendour, sephira 8: an orange octagon carrying Mercury."},
+  {id:"yesod", g:"tree", sym:"☾", label:"Yesod", wiki:"Yesod", desc:"Foundation, sephira 9: a violet enneagon carrying the Moon."},
+  {id:"malkuth", g:"tree", sym:"⊗", label:"Malkuth", wiki:"Malkuth", desc:"Kingdom, sephira 10, quartered in citrine, olive, russet and black for the four elements of the material world."},
+  {id:"galaxies", g:"tree", sym:"◎", label:"Edge-on galaxies", wiki:"Spiral_galaxy", desc:"A horizon of spiral galaxies seen edge-on, crossing the Tree at the level of Chesed and Geburah."},
+
+  // Forces, elements, theories
+  {id:"em", g:"forces", sym:"γ", label:"Electromagnetic", wiki:"Electromagnetism", desc:"The electromagnetic force, carried by the photon. Paired with Fire and with MWI."},
+  {id:"grav", g:"forces", sym:"G", label:"Gravitational", wiki:"Gravity", desc:"Gravity, described by general relativity. Paired with Water and with E8."},
+  {id:"weak", g:"forces", sym:"W", label:"Weak", wiki:"Weak_interaction", desc:"The weak interaction, carried by the W and Z bosons. Paired with Air and with the Standard Model."},
+  {id:"strong", g:"forces", sym:"g", label:"Strong", wiki:"Strong_interaction", desc:"The strong interaction, binding quarks through gluons. Paired with Earth and with ΛCDM."},
+  {id:"fire", g:"forces", sym:"🜂", label:"Fire (upward triangle)", wiki:"Fire_(classical_element)", desc:"Alchemical symbol for Fire. It opens the first row and marks the photon in the wheel."},
+  {id:"water", g:"forces", sym:"🜄", label:"Water (downward triangle)", wiki:"Water_(classical_element)", desc:"Alchemical symbol for Water. It opens the second row and marks the W boson in the wheel."},
+  {id:"air", g:"forces", sym:"🜁", label:"Air (upward triangle with bar)", wiki:"Air_(classical_element)", desc:"Alchemical symbol for Air. It opens the third row and marks the Z boson in the wheel."},
+  {id:"earth", g:"forces", sym:"🜃", label:"Earth (downward triangle with bar)", wiki:"Earth_(classical_element)", desc:"Alchemical symbol for Earth. It opens the fourth row and marks the gluon in the wheel."},
+  {id:"mwi", g:"forces", sym:"MWI", label:"MWI", wiki:"Many-worlds_interpretation", desc:"The many-worlds interpretation of quantum mechanics."},
+  {id:"e8", g:"forces", sym:"E8", label:"E8", wiki:"E8_(mathematics)", desc:"The exceptional Lie group E8, the basis of Garrett Lisi’s proposed “exceptionally simple” theory of everything."},
+  {id:"sm", g:"forces", sym:"SM", label:"Standard Model", wiki:"Standard_Model", desc:"The theory classifying all known elementary particles and three of the four fundamental forces."},
+  {id:"lcdm", g:"forces", sym:"ΛCDM", label:"ΛCDM", wiki:"Lambda-CDM_model", desc:"Lambda cold dark matter, the standard model of Big Bang cosmology."},
+
+  // Mathematics
+  {id:"phi", g:"math", sym:"Φ", label:"Φ (golden ratio)", wiki:"Golden_ratio", desc:"φ = (1 + √5) / 2 ≈ 1.618, the constant at the centre of the composition."},
+  {id:"fiblim", g:"math", sym:"lim", label:"lim Fₙ₊₁ / Fₙ as n → ∞", wiki:"Fibonacci_sequence", desc:"The ratio of consecutive Fibonacci numbers converges to φ."},
+  {id:"add", g:"math", sym:"+", label:"Plus (+)", wiki:"Addition", desc:"The operator of the Fire row, joining electromagnetism and many-worlds."},
+  {id:"sub", g:"math", sym:"−", label:"Minus (−)", wiki:"Subtraction", desc:"The operator of the Water row, joining gravity and E8."},
+  {id:"mul", g:"math", sym:"×", label:"Times (×)", wiki:"Multiplication", desc:"The operator of the Air row, joining the weak force and the Standard Model."},
+  {id:"div", g:"math", sym:"÷", label:"Divide (÷)", wiki:"Division_(mathematics)", desc:"The operator of the Earth row, joining the strong force and ΛCDM."},
+  {id:"cfminus", g:"math", sym:"1−1", label:"X = 1 − 1/X (continued fraction)", wiki:"Continued_fraction", desc:"The infinite continued fraction 1 − 1/(1 − 1/…). Algebraically it gives X² − X + 1 = 0, whose roots are complex."},
+  {id:"cfplus", g:"math", sym:"1+1", label:"X = 1 + 1/X (continued fraction)", wiki:"Golden_ratio#Continued_fraction_and_square_root", desc:"The golden-ratio continued fraction 1 + 1/(1 + 1/…), drawn mirrored. Its positive solution is φ."},
+  {id:"quadplus", g:"math", sym:"x²+", label:"X^2+x-1=0", wiki:"Quadratic_equation", desc:"A quadratic whose roots are 1/φ ≈ 0.618 and −φ."},
+  {id:"quadminus", g:"math", sym:"x²−", label:"X^2-x-1=0", wiki:"Quadratic_equation", desc:"The defining equation of the golden ratio. Its roots are φ ≈ 1.618 and −1/φ."},
+  {id:"qformula", g:"math", sym:"±√", label:"Quadratic formula (inside the Sun)", wiki:"Quadratic_formula", desc:"x = (−b ± √(b² − 4ac)) / 2a, which solves both golden-ratio quadratics above."},
+  {id:"rose", g:"math", sym:"✳", label:"Mystic rose mandalas", wiki:"Complete_graph", desc:"String-art wheels where every point on a circle joins every other: a complete graph."},
+
+  // Zodiac
+  {id:"aries", g:"zodiac", sym:"♈", label:"Aries", wiki:"Aries_(astrology)", desc:"Cardinal Fire. Paired with the bottom quark."},
+  {id:"taurus", g:"zodiac", sym:"♉", label:"Taurus", wiki:"Taurus_(astrology)", desc:"Fixed Earth. Paired with the strange quark."},
+  {id:"gemini", g:"zodiac", sym:"♊", label:"Gemini", wiki:"Gemini_(astrology)", desc:"Mutable Air. Paired with the down quark."},
+  {id:"cancer", g:"zodiac", sym:"♋", label:"Cancer", wiki:"Cancer_(astrology)", desc:"Cardinal Water. Paired with the top quark."},
+  {id:"leo", g:"zodiac", sym:"♌", label:"Leo", wiki:"Leo_(astrology)", desc:"Fixed Fire. Paired with the charm quark."},
+  {id:"virgo", g:"zodiac", sym:"♍", label:"Virgo", wiki:"Virgo_(astrology)", desc:"Mutable Earth. Paired with the up quark."},
+  {id:"libra", g:"zodiac", sym:"♎", label:"Libra", wiki:"Libra_(astrology)", desc:"Cardinal Air. Paired with the tau."},
+  {id:"scorpio", g:"zodiac", sym:"♏", label:"Scorpio", wiki:"Scorpio_(astrology)", desc:"Fixed Water. Paired with the muon."},
+  {id:"sagittarius", g:"zodiac", sym:"♐", label:"Sagittarius", wiki:"Sagittarius_(astrology)", desc:"Mutable Fire. Paired with the electron."},
+  {id:"capricorn", g:"zodiac", sym:"♑", label:"Capricorn", wiki:"Capricorn_(astrology)", desc:"Cardinal Earth. Paired with the electron neutrino."},
+  {id:"aquarius", g:"zodiac", sym:"♒", label:"Aquarius", wiki:"Aquarius_(astrology)", desc:"Fixed Air. Paired with the muon neutrino."},
+  {id:"pisces", g:"zodiac", sym:"♓", label:"Pisces", wiki:"Pisces_(astrology)", desc:"Mutable Water. Paired with the tau neutrino."},
+
+  // Planets
+  {id:"saturn", g:"planets", sym:"♄", label:"Saturn", wiki:"Saturn", desc:"First of the columns, which run in Chaldean order from the slowest planet to the fastest."},
+  {id:"jupiter", g:"planets", sym:"♃", label:"Jupiter", wiki:"Jupiter", desc:"Second in Chaldean order."},
+  {id:"mars", g:"planets", sym:"♂", label:"Mars", wiki:"Mars", desc:"Third in Chaldean order."},
+  {id:"sun", g:"planets", sym:"☉", label:"Sun", wiki:"Sun", desc:"Fourth in Chaldean order, and the setting sun of the bottom panel."},
+  {id:"venus", g:"planets", sym:"♀", label:"Venus", wiki:"Venus", desc:"Fifth in Chaldean order."},
+  {id:"mercury", g:"planets", sym:"☿", label:"Mercury", wiki:"Mercury_(planet)", desc:"Sixth in Chaldean order."},
+  {id:"moon", g:"planets", sym:"☾", label:"Moon", wiki:"Moon", desc:"Seventh and fastest in Chaldean order."},
+
+  // Particles
+  {id:"up", g:"particles", sym:"u", label:"up", wiki:"Up_quark", desc:"The lightest quark, charge +⅔. Paired with Virgo."},
+  {id:"down", g:"particles", sym:"d", label:"down", wiki:"Down_quark", desc:"First-generation quark, charge −⅓. Paired with Gemini."},
+  {id:"charm", g:"particles", sym:"c", label:"charm", wiki:"Charm_quark", desc:"Second-generation quark, charge +⅔. Paired with Leo."},
+  {id:"strange", g:"particles", sym:"s", label:"strange", wiki:"Strange_quark", desc:"Second-generation quark, charge −⅓. Paired with Taurus."},
+  {id:"top", g:"particles", sym:"t", label:"top", wiki:"Top_quark", desc:"The heaviest known elementary particle. Paired with Cancer."},
+  {id:"bottom", g:"particles", sym:"b", label:"bottom", wiki:"Bottom_quark", desc:"Third-generation quark, charge −⅓. Paired with Aries."},
+  {id:"electron", g:"particles", sym:"e", label:"electron", wiki:"Electron", desc:"First-generation charged lepton. Paired with Sagittarius."},
+  {id:"muon", g:"particles", sym:"μ", label:"muon", wiki:"Muon", desc:"Second-generation charged lepton. Paired with Scorpio."},
+  {id:"tau", g:"particles", sym:"τ", label:"tau", wiki:"Tau_(particle)", desc:"Third-generation charged lepton. Paired with Libra."},
+  {id:"enu", g:"particles", sym:"νe", label:"electron-neutrino", wiki:"Electron_neutrino", desc:"Neutral lepton partner of the electron. Paired with Capricorn."},
+  {id:"munu", g:"particles", sym:"νμ", label:"muon-neutrino", wiki:"Muon_neutrino", desc:"Neutral lepton partner of the muon. Paired with Aquarius."},
+  {id:"taunu", g:"particles", sym:"ντ", label:"tau-neutrino", wiki:"Tau_neutrino", desc:"Neutral lepton partner of the tau. Paired with Pisces."},
+  {id:"photon", g:"particles", sym:"γ", label:"photon", wiki:"Photon", desc:"Carrier of electromagnetism, marked with the red Fire triangle."},
+  {id:"gluon", g:"particles", sym:"g", label:"gluon", wiki:"Gluon", desc:"Carrier of the strong force, marked with the green Earth triangle."},
+  {id:"wboson", g:"particles", sym:"W", label:"W", wiki:"W_and_Z_bosons", desc:"Charged carrier of the weak force, marked with the blue Water triangle."},
+  {id:"zboson", g:"particles", sym:"Z", label:"Z", wiki:"W_and_Z_bosons", desc:"Neutral carrier of the weak force, marked with the yellow Air triangle."},
+  {id:"higgs", g:"particles", sym:"H", label:"higgs boson", wiki:"Higgs_boson", desc:"The scalar boson at the hub of the wheel, which gives other particles their mass."},
+  {id:"hexagram", g:"particles", sym:"✡", label:"Hexagram", wiki:"Hexagram", desc:"The six-pointed star at the Higgs centre: the union of the upward and downward triangles."},
+
+  // Night sky
+  {id:"stars", g:"night", sym:"★", label:"Starry arch", wiki:"Night_sky", desc:"The night sky of the purple panel, banded by concentric arcs around the particle wheel."}
+];
+const BY = {};
+ITEMS.forEach(i => { i.url = W + i.wiki; BY[i.id] = i; });
+
+/* ---------- helpers ---------- */
+function el(tag, attrs, parent){
+  const e = document.createElementNS(NS, tag);
+  if (attrs) for (const k in attrs) e.setAttribute(k, attrs[k]);
+  if (parent) parent.appendChild(e);
+  return e;
+}
+function A(id, parent){
+  const it = BY[id];
+  if (!it) return el("g", null, parent);
+  const g = el("g", {class:"hot", "data-id":id, tabindex:"0", role:"button", "aria-label":"Preview " + it.label}, parent);
+  el("title", null, g).textContent = it.label;
+  return g;
+}
+function T(parent, x, y, s, attrs){
+  const t = el("text", Object.assign({x:x, y:y, "text-anchor":"middle", "dominant-baseline":"central"}, attrs || {}), parent);
+  t.textContent = s;
+  return t;
+}
+function hit(parent, cx, cy, w, h){ el("rect", {x:cx-w/2, y:cy-h/2, width:w, height:h, fill:"transparent"}, parent); }
+const RAD = Math.PI / 180;
+const pt = (cx, cy, r, a) => [cx + r*Math.cos(a*RAD), cy + r*Math.sin(a*RAD)];
+function polyPts(n, cx, cy, r, rot){
+  const p = [];
+  for (let i = 0; i < n; i++){ const q = pt(cx, cy, r, rot + 360*i/n); p.push(q[0].toFixed(2) + "," + q[1].toFixed(2)); }
+  return p.join(" ");
+}
+function rng(seed){
+  return function(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function starD(cx, cy, R, rot){
+  let d = "";
+  for (let i = 0; i < 10; i++){
+    const r = i % 2 ? R*0.42 : R;
+    const q = pt(cx, cy, r, rot - 90 + 36*i);
+    d += (i ? "L" : "M") + q[0].toFixed(1) + " " + q[1].toFixed(1);
+  }
+  return d + "Z";
+}
+function sectorD(cx, cy, r0, r1, a0, a1){
+  const p1 = pt(cx,cy,r1,a0), p2 = pt(cx,cy,r1,a1), p3 = pt(cx,cy,r0,a1), p4 = pt(cx,cy,r0,a0);
+  return `M${p1[0]} ${p1[1]}A${r1} ${r1} 0 0 1 ${p2[0]} ${p2[1]}L${p3[0]} ${p3[1]}A${r0} ${r0} 0 0 0 ${p4[0]} ${p4[1]}Z`;
+}
+function tri(parent, x, cy, kind, size, stroke, fill, sw){
+  const w = size, h = size*0.87;
+  const up = (kind === "fire" || kind === "air");
+  const pts = up
+    ? `${x},${cy-h/2} ${x-w/2},${cy+h/2} ${x+w/2},${cy+h/2}`
+    : `${x},${cy+h/2} ${x-w/2},${cy-h/2} ${x+w/2},${cy-h/2}`;
+  el("polygon", {points:pts, fill:fill || "none", stroke:stroke, "stroke-width":sw, "stroke-linejoin":"miter"}, parent);
+  if (kind === "air" || kind === "earth"){
+    el("line", {x1:x-w/2-1, y1:cy, x2:x+w/2+1, y2:cy, stroke:stroke, "stroke-width":sw}, parent);
+  }
+}
+
+const L = {};
+const view = el("g", {id:"view", "clip-path":"url(#plate)"}, svg);
+const CHEAP = {gal:1, mid:1, purple:1, sea:1, sky:1};
+["bg","gal","glow","tree","mid","purple","sky","sea"].forEach(k => L[k] = el("g", CHEAP[k] ? {class:"cheap"} : null, view));
+
+/* ---------- backgrounds ---------- */
+el("rect", {x:0, y:0, width:1000, height:250, fill:"#f7f7f5"}, L.bg);
+el("rect", {x:0, y:250, width:1000, height:250, fill:"#000"}, L.bg);
+
+/* ---------- galaxies ---------- */
+(function(){
+  const g = A("galaxies", L.gal), r = rng(7);
+  [71, 213, 352, 648, 787, 929].forEach(cx => {
+    const hw = 72;
+    el("path", {d:`M${cx-hw} 125Q${cx} 106 ${cx+hw} 125Q${cx} 144 ${cx-hw} 125Z`, fill:"url(#gal)"}, g);
+    let d = "";
+    for (let i = 0; i < 46; i++){
+      const t = r()*2 - 1, x = cx + hw*t, hh = 8.2*(1 - t*t);
+      const y = 125 + (r()*2 - 1)*hh*0.9, s = 0.25 + r()*0.45;
+      d += `M${x.toFixed(1)} ${y.toFixed(1)}m-${s} 0a${s} ${s} 0 1 0 ${2*s} 0a${s} ${s} 0 1 0 -${2*s} 0`;
+    }
+    el("path", {d:d, fill:"#fff", opacity:".7"}, g);
+  });
+})();
+
+/* ---------- Tree of Life ---------- */
+const N = {
+  kether:[500,20], chokmah:[586,53], binah:[414,53], daath:[500,89],
+  chesed:[586,125], geburah:[414,125], tiphareth:[500,160],
+  netzach:[586,197], hod:[414,197], yesod:[500,233], malkuth:[500,304]
+};
+(function(){
+  const g = A("einsof", L.glow);
+  const body = ["kether","chokmah","chesed","netzach","malkuth","hod","geburah","binah"].map(k => N[k].join(",")).join(" ");
+  [[1.15, .10], [1.12, .16], [1.09, .24], [1.06, .34], [1.03, .5], [1, 1]].forEach(([z, o]) => {
+    el("polygon", {points:body, fill:"#f4dd2e", opacity:o,
+      transform:`translate(500 150) scale(${z}) translate(-500 -150)`}, g);
+  });
+  el("ellipse", {cx:500, cy:140, rx:178, ry:182, fill:"url(#aura)"}, g);
+  el("circle", {cx:500, cy:304, r:50, fill:"url(#aura)", opacity:".8"}, g);
+})();
+(function(){
+  const P = [["kether","chokmah"],["kether","binah"],["kether","tiphareth"],["chokmah","binah"],["chokmah","tiphareth"],["chokmah","chesed"],["binah","tiphareth"],["binah","geburah"],["chesed","geburah"],["chesed","tiphareth"],["chesed","netzach"],["geburah","tiphareth"],["geburah","hod"],["tiphareth","netzach"],["tiphareth","yesod"],["tiphareth","hod"],["netzach","hod"],["netzach","yesod"],["netzach","malkuth"],["hod","yesod"],["hod","malkuth"],["yesod","malkuth"]];
+  const g = A("tree", L.tree);
+  const dPaths = dy => P.map(([a,b]) => `M${N[a][0]} ${N[a][1]+(dy||0)}L${N[b][0]} ${N[b][1]+(dy||0)}`).join("");
+  const draw = (w, c, dy) => el("path", {d:dPaths(dy), stroke:c, "stroke-width":w, "stroke-linecap":"round", fill:"none"}, g);
+  draw(14, "rgba(0,0,0,.34)", 1.6);
+  draw(13, "#8f8f8f");
+  draw(10, "#ffffff");
+})();
+
+function ring(g, x, y, r, color){
+  el("circle", {cx:x, cy:y, r:r+4.5, fill:color || "#6b1fc4", stroke:"#1c0638", "stroke-width":1}, g);
+}
+function gloss(g, x, y, r){ el("circle", {cx:x, cy:y, r:r, fill:"url(#orb)", "pointer-events":"none"}, g); }
+function glyph(g, x, y, s, size, fill){ T(g, x, y, s + VS, {class:"sym", "font-size":size, fill:fill}); }
+
+(function(){
+  const t = L.tree;
+  let g, x, y;
+  // Kether
+  [x,y] = N.kether; g = A("kether", t);
+  el("circle", {cx:x, cy:y + 1.5, r:19, fill:"rgba(0,0,0,.3)"}, g);
+  el("circle", {cx:x, cy:y, r:19, fill:"url(#kether)", stroke:"#e7c65a", "stroke-width":1.5}, g);
+  el("circle", {cx:x, cy:y, r:2.6, fill:"#111"}, g);
+  // Chokmah
+  [x,y] = N.chokmah; g = A("chokmah", t);
+  ring(g, x, y, 15);
+  el("circle", {cx:x, cy:y, r:15, fill:"#b9b9c2", stroke:"#555", "stroke-width":1}, g);
+  el("line", {x1:x, y1:y-15, x2:x, y2:y+15, stroke:"#3a3a3a", "stroke-width":2.6}, g);
+  el("line", {x1:x-15, y1:y, x2:x+15, y2:y, stroke:"#3a3a3a", "stroke-width":2.6}, g);
+  gloss(g, x, y, 15);
+  // Binah
+  [x,y] = N.binah; g = A("binah", t);
+  ring(g, x, y, 15);
+  el("circle", {cx:x, cy:y, r:15, fill:"#0b0b0b"}, g);
+  gloss(g, x, y, 15);
+  g = A("triad", t);
+  el("polygon", {points:`${x},${y-11} ${x-11},${y+8} ${x+11},${y+8}`, fill:"none", stroke:"#fff", "stroke-width":1}, g);
+  T(g, x, y+1.5, "The Triad", {class:"serif", "font-size":2.6, fill:"#fff"});
+  T(g, x, y-5, "☿" + VS, {class:"sym", "font-size":4, fill:"#fff"});
+  T(g, x-4.5, y+5, "🜍", {class:"sym", "font-size":3.4, fill:"#fff"});
+  T(g, x, y+5, "♄" + VS, {class:"sym", "font-size":3.4, fill:"#fff"});
+  T(g, x+4.5, y+5, "🜔", {class:"sym", "font-size":3.4, fill:"#fff"});
+  // Da'at
+  [x,y] = N.daath; g = A("daath", t);
+  el("circle", {cx:x, cy:y, r:14, fill:"#fff", "fill-opacity":".25", stroke:"#fff", "stroke-width":1.8, "stroke-dasharray":"3 2.2"}, g);
+  // Sephiroth with polygons
+  const S = [
+    ["chesed", 4, -45, "#1f3fe0", "♃", "#fff"],
+    ["geburah", 5, -90, "#e8141c", "♂", "#111"],
+    ["tiphareth", 6, 0, "#f6e71e", "☉", "#111"],
+    ["netzach", 7, -90, "#20d52c", "♀", "#111"],
+    ["hod", 8, -67.5, "#f38a1b", "☿", "#111"],
+    ["yesod", 9, -90, "#7a2ee6", "☾", "#fff"]
+  ];
+  S.forEach(([id, n, rot, fill, sym, sc]) => {
+    [x,y] = N[id]; g = A(id, t);
+    ring(g, x, y, 15, id === "tiphareth" ? "#6b1fc4" : undefined);
+    el("polygon", {points:polyPts(n, x, y, 16, rot), fill:fill, stroke:"#1a1a1a", "stroke-width":1}, g);
+    gloss(g, x, y, 15);
+    glyph(g, x, y+.5, sym, 13, sc);
+  });
+  // Malkuth
+  [x,y] = N.malkuth; g = A("malkuth", t);
+  el("circle", {cx:x, cy:y + 1.6, r:24, fill:"rgba(0,0,0,.3)"}, g);
+  el("circle", {cx:x, cy:y, r:24, fill:"#0a0a0a", stroke:"#9a9a9a", "stroke-width":2}, g);
+  const r = 19, q = [["#c9b21b",-135,-45],["#5d7f19",-45,45],["#111",45,135],["#bf4a1a",135,225]];
+  q.forEach(([c,a0,a1]) => {
+    const p1 = pt(x,y,r,a0), p2 = pt(x,y,r,a1);
+    el("path", {d:`M${x} ${y}L${p1[0]} ${p1[1]}A${r} ${r} 0 0 1 ${p2[0]} ${p2[1]}Z`, fill:c, stroke:"#222", "stroke-width":.6}, g);
+  });
+  gloss(g, x, y, 19);
+})();
+
+/* ---------- middle panel ---------- */
+const SIGNS = {aries:"♈",taurus:"♉",gemini:"♊",cancer:"♋",leo:"♌",virgo:"♍",libra:"♎",scorpio:"♏",sagittarius:"♐",capricorn:"♑",aquarius:"♒",pisces:"♓"};
+const ORDER = ["aries","taurus","gemini","cancer","leo","virgo","libra","scorpio","sagittarius","capricorn","aquarius","pisces"];
+
+(function(){
+  const m = L.mid;
+  // mystic rose (built once, cloned)
+  const rose = A("rose", m);
+  const pts = [];
+  for (let i = 0; i < 24; i++) pts.push(pt(136, 374, 80, -90 + 15*i));
+  const hues = [0,128,112,20,0,340,300,222,205,236,262,272,288];
+  const paths = {};
+  for (let i = 0; i < 24; i++) for (let j = i+1; j < 24; j++){
+    const k = Math.min(j-i, 24-(j-i));
+    paths[k] = (paths[k] || "") + `M${pts[i][0].toFixed(1)} ${pts[i][1].toFixed(1)}L${pts[j][0].toFixed(1)} ${pts[j][1].toFixed(1)}`;
+  }
+  for (const k in paths) el("path", {d:paths[k], stroke:`hsl(${hues[k]} 78% ${k < 3 ? 34 : 48}%)`, "stroke-width":.45, "stroke-opacity":".75", fill:"none"}, rose);
+  el("circle", {cx:136, cy:374, r:4, fill:"#000"}, rose);
+  el("circle", {cx:136, cy:374, r:2.4, fill:"#12b3a5"}, rose);
+  hit(rose, 136, 374, 150, 150);
+  const rose2 = rose.cloneNode(true);
+  rose2.setAttribute("transform", "translate(721 0)");
+  m.appendChild(rose2);
+
+  // zodiac rings
+  [136, 857].forEach(cx => {
+    ORDER.forEach((s, i) => {
+      const a = -90 - 30*i, p = pt(cx, 374, 104, a);
+      const g = A(s, m);
+      const t = T(g, p[0], p[1], SIGNS[s] + VS, {class:"sym", "font-size":21, fill:"#f6a61b", "font-weight":"700", transform:`rotate(${a+90} ${p[0].toFixed(1)} ${p[1].toFixed(1)})`});
+      hit(g, p[0], p[1], 22, 22);
+    });
+  });
+
+  // four rows
+  const rows = [
+    {y:285, el:"fire",  L:"em",     R:"mwi",  op:"add", sym:"+"},
+    {y:345, el:"water", L:"grav",   R:"e8",   op:"sub", sym:"−"},
+    {y:406, el:"air",   L:"weak",   R:"sm",   op:"mul", sym:"×"},
+    {y:466, el:"earth", L:"strong", R:"lcdm", op:"div", sym:"÷"}
+  ];
+  rows.forEach(r => {
+    let g = A(r.L, m);
+    const lt = BY[r.L].label;
+    T(g, 288, r.y, lt, {class:"sans", "font-size":12.5, fill:"#fff"});
+    hit(g, 288, r.y, lt.length*7.2, 18);
+    g = A(r.R, m);
+    const rt = BY[r.R].label;
+    T(g, 712, r.y, rt, {class:"sans", "font-size":12.5, fill:"#fff"});
+    hit(g, 712, r.y, rt.length*7.2 + 6, 18);
+    [362, 638].forEach(x => {
+      g = A(r.el, m);
+      tri(g, x, r.y, r.el, 52, "#fff", null, 2.6);
+      hit(g, x, r.y, 54, 48);
+    });
+    [421, 590].forEach(x => {
+      g = A(r.op, m);
+      T(g, x, r.y + (r.op === "sub" ? -1 : 0), r.sym, {class:"sans", "font-size":r.op === "mul" ? 34 : 38, "font-weight":"700", fill:"#fff"});
+      hit(g, x, r.y, 26, 26);
+    });
+  });
+
+  // Phi
+  let g = A("phi", m);
+  el("circle", {cx:500, cy:391, r:46, fill:"url(#aura)", opacity:".75"}, g);
+  T(g, 500, 393, "Φ", {class:"serif", "font-size":68, "font-weight":"600", fill:"#f3e01a", stroke:"#000", "stroke-width":2.2, "paint-order":"stroke"});
+
+  // Fibonacci limit
+  g = A("fiblim", m);
+  el("rect", {x:438, y:444, width:124, height:51, fill:"#000", stroke:"#fff", "stroke-width":1}, g);
+  T(g, 468, 464, "Lim", {class:"sans", "font-size":19, fill:"#fff"});
+  T(g, 468, 482, "n→∞", {class:"sans", "font-size":9, fill:"#fff", "font-style":"italic"});
+  const num = el("text", {x:526, y:461, "text-anchor":"middle", "dominant-baseline":"central", class:"sans", "font-size":17, fill:"#fff", "font-style":"italic"}, g);
+  num.innerHTML = 'F<tspan font-size="9" dy="4">n+1</tspan>';
+  el("line", {x1:502, y1:471, x2:551, y2:471, stroke:"#fff", "stroke-width":1.4}, g);
+  const den = el("text", {x:526, y:483, "text-anchor":"middle", "dominant-baseline":"central", class:"sans", "font-size":17, fill:"#fff", "font-style":"italic"}, g);
+  den.innerHTML = 'F<tspan font-size="9" dy="4">n</tspan>';
+})();
+
+/* ---------- purple panel ---------- */
+(function(){
+  const p = L.purple;
+  el("rect", {x:0, y:500, width:1000, height:250, fill:"#8a10ee"}, p);
+
+  // continued-fraction staircases
+  function stair(g, sign){
+    const xs = [61, 95, 112, 129, 146, 163, 181], ys = [509, 525, 541, 557, 573, 589, 606];
+    xs.forEach((x, i) => {
+      const s = i === 0 ? `X=1${sign}1` : (i === 6 ? "1" : `1${sign}1`);
+      T(g, x, ys[i], s, {class:"serif", "font-size":13, fill:"#fff", "text-anchor":"start"});
+      if (i < 6){
+        const bx = xs[i+1] - 3;
+        el("line", {x1:bx, y1:ys[i]+8, x2:530 - i*42, y2:ys[i]+8, stroke:"#fff", "stroke-width":1.1}, g);
+      }
+    });
+    hit(g, 120, 558, 130, 104);
+  }
+  let g = A("cfminus", p); stair(g, "-");
+  T(g, 111, 613, "X=1-1/X", {class:"serif", "font-size":19, fill:"#fff"});
+  g = A("cfplus", p);
+  const mir = el("g", {transform:"translate(1000 0) scale(-1 1)"}, g);
+  stair(mir, "+");
+  T(g, 889, 613, "X=1+1/X", {class:"serif", "font-size":19, fill:"#fff"});
+
+  // arch, rings, stars (clipped)
+  const clip = el("g", {"clip-path":"url(#purpleClip)"}, p);
+  const sg = A("stars", clip);
+  el("circle", {cx:500, cy:1023, r:511, fill:"#000"}, sg);
+  el("path", {d:[478, 446, 412, 376, 338].map(r => `M${500-r} 1023a${r} ${r} 0 1 0 ${2*r} 0a${r} ${r} 0 1 0 ${-2*r} 0`).join(""),
+    fill:"none", stroke:"#8a10ee", "stroke-width":2.6}, sg);
+  const rnd = rng(42); let d = "", n = 0, tries = 0;
+  while (n < 200 && tries < 4500){
+    tries++;
+    const x = 60 + rnd()*880, y = 505 + rnd()*243;
+    const da = Math.hypot(x-500, y-1023), dw = Math.hypot(x-500, y-624);
+    if (da > 503 || dw < 130) continue;
+    const big = rnd() < .09, R = big ? 6 + rnd()*4 : 1.4 + rnd()*3;
+    if (da > 511 - R) continue;
+    d += starD(x, y, R, rnd()*72); n++;
+  }
+  el("path", {d:d, fill:"#f6ea2a"}, sg);
+
+  // planet columns
+  const PL = [["saturn","♄"],["jupiter","♃"],["mars","♂"],["sun","☉"],["venus","♀"],["mercury","☿"],["moon","☾"]];
+  const ch = 250/7;
+  [18, 941].forEach(cx => {
+    PL.forEach(([id, s], i) => {
+      const gg = A(id, p), y = 500 + i*ch;
+      el("rect", {x:cx, y:y, width:41, height:ch, fill:"#fff", stroke:"#111", "stroke-width":1.6}, gg);
+      glyph(gg, cx + 20.5, y + ch/2 + 1, s, 27, "#111");
+    });
+  });
+  g = A("quadplus", p);
+  el("rect", {x:0, y:500, width:18, height:250, fill:"transparent"}, g);
+  T(g, 9.5, 625, "X^2+x-1=0", {class:"serif", "font-size":16, fill:"#fff", transform:"rotate(-90 9.5 625)"});
+  g = A("quadminus", p);
+  el("rect", {x:982, y:500, width:18, height:250, fill:"transparent"}, g);
+  T(g, 990.5, 625, "X^2-x-1=0", {class:"serif", "font-size":16, fill:"#fff", transform:"rotate(90 990.5 625)"});
+
+  // particle wheel
+  const cx = 500, cy = 624;
+  el("circle", {cx:cx, cy:cy, r:124.5, fill:"#111"}, p);
+  const SEC = [
+    ["down","gemini","down"],["strange","taurus","strange"],["bottom","aries","bottom"],
+    ["taunu","pisces","tau-neutrino"],["munu","aquarius","muon-neutrino"],["enu","capricorn","electron-neutrino"],
+    ["electron","sagittarius","electron"],["muon","scorpio","muon"],["tau","libra","tau"],
+    ["up","virgo","up"],["charm","leo","charm"],["top","cancer","top"]
+  ];
+  const later = [];
+  SEC.forEach(([id, sign, label], i) => {
+    const a0 = -90 + 30*i, a1 = a0 + 30, mid = a0 + 15;
+    const yellow = i % 2 === 0, fill = yellow ? "#f3e33c" : "#2b4ddc", ink = yellow ? "#1a1a1a" : "#fff";
+    const gg = A(id, p);
+    el("path", {d:sectorD(cx, cy, 64, 123, a0, a1), fill:fill, stroke:"#d6d6d6", "stroke-width":.9}, gg);
+    const lp = pt(cx, cy, 110, mid);
+    T(gg, lp[0], lp[1], label, {class:"serif", "font-size":label.length > 10 ? 6.6 : 7.8, fill:ink});
+    later.push([sign, pt(cx, cy, 84, mid), yellow]);
+  });
+  later.forEach(([sign, q, yellow]) => {
+    const gg = A(sign, p);
+    el("circle", {cx:q[0], cy:q[1], r:14.5, fill:yellow ? "#f3e33c" : "#2b4ddc", stroke:"#111", "stroke-width":1.4}, gg);
+    el("circle", {cx:q[0], cy:q[1], r:12.3, fill:"none", stroke:yellow ? "#111" : "#fff", "stroke-width":1.8}, gg);
+    glyph(gg, q[0], q[1] + .5, SIGNS[sign], 14, yellow ? "#111" : "#fff");
+  });
+  // inner disk
+  el("circle", {cx:cx, cy:cy, r:64, fill:"#f3f3f3", stroke:"#b5b5b5", "stroke-width":1.4}, p);
+  el("line", {x1:cx, y1:cy-64, x2:cx, y2:cy+64, stroke:"#1a1a1a", "stroke-width":1.4}, p);
+  el("line", {x1:cx-64, y1:cy, x2:cx+64, y2:cy, stroke:"#1a1a1a", "stroke-width":1.4}, p);
+  const BOS = [
+    ["photon", 468, 593, "fire", "#e0202a", 459, 611, "photon"],
+    ["gluon", 532, 593, "earth", "#1fbf2e", 541, 611, "gluon"],
+    ["wboson", 468, 655, "water", "#1f3fe0", 484, 673, "W"],
+    ["zboson", 532, 655, "air", "#f3d21c", 520, 673, "Z"]
+  ];
+  BOS.forEach(([id, x, y, kind, col, lx, ly, lab]) => {
+    const gg = A(id, p);
+    el("circle", {cx:x, cy:y, r:12, fill:"#fff", stroke:"#111", "stroke-width":2}, gg);
+    const up = kind === "fire" || kind === "air";
+    tri(gg, x, y + (up ? 1 : -1), up ? "fire" : "water", 12, "#333", col, .6);
+    T(gg, lx, ly, lab, {class:"serif", "font-size":8, fill:"#222"});
+  });
+  // higgs
+  g = A("higgs", p);
+  el("circle", {cx:cx, cy:cy, r:25, fill:"#d9adf5", stroke:"#8a4fd0", "stroke-width":1.6}, g);
+  el("path", {id:"higgsArc", d:`M${pt(cx,cy,19.5,165).join(" ")}A19.5 19.5 0 0 0 ${pt(cx,cy,19.5,15).join(" ")}`, fill:"none"}, g);
+  const ht = el("text", {class:"serif", "font-size":5.8, fill:"#2a1440"}, g);
+  const tp = el("textPath", {href:"#higgsArc", startOffset:"50%", "text-anchor":"middle", "dominant-baseline":"central"}, ht);
+  tp.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#higgsArc");
+  tp.textContent = "higgs boson";
+  g = A("hexagram", p);
+  el("circle", {cx:cx, cy:cy, r:13, fill:"#6c1fd0", stroke:"#111", "stroke-width":1.8}, g);
+  el("polygon", {points:polyPts(3, cx, cy, 9, -90), fill:"none", stroke:"#fff", "stroke-width":1.1}, g);
+  el("polygon", {points:polyPts(3, cx, cy, 9, 90), fill:"none", stroke:"#fff", "stroke-width":1.1}, g);
+})();
+
+/* ---------- sunset ---------- */
+(function(){
+  const s = L.sky;
+  A("sunset", s).appendChild(el("rect", {x:0, y:750, width:1000, height:150, fill:"url(#sky)"}));
+  const cg = A("clouds", s);
+  const C = [[-10,771,77,5],[244,781,99,5],[43,856,213,8],[598,791,148,6],[310,890,99,5],[537,873,156,6],[818,775,100,5],[852,884,128,6]];
+  let cd = "";
+  const box = (x, y, w, h) => { cd += `M${x} ${y}h${w}v${h}h${-w}Z`; };
+  C.forEach(([x, yb, w, t]) => {
+    box(x, yb-t, w, t); box(x + w*.1, yb-2*t, w*.62, t+.5); box(x + w*.28, yb-3*t, w*.24, t+.5);
+  });
+  el("path", {d:cd, fill:"#fff"}, cg);
+  // sun
+  const sun = A("sun", s), sx = 500, sy = 804;
+  let rays = "";
+  for (let i = 0; i < 24; i++){
+    const a = i*15, p1 = pt(sx, sy, 29, a), p2 = pt(sx, sy, i % 2 ? 39 : 44, a);
+    rays += `M${p1[0].toFixed(1)} ${p1[1].toFixed(1)}L${p2[0].toFixed(1)} ${p2[1].toFixed(1)}`;
+  }
+  el("path", {d:rays, stroke:"#ffd324", "stroke-width":2.4, "stroke-linecap":"round", fill:"none"}, sun);
+  el("circle", {cx:sx, cy:sy, r:25, fill:"url(#sundisk)", stroke:"#f5a21b", "stroke-width":2}, sun);
+  const qf = A("qformula", s);
+  el("rect", {x:474, y:795, width:52, height:18, fill:"transparent"}, qf);
+  T(qf, 481, 805, "x =", {class:"serif", "font-size":5, fill:"#7a5a00", "font-style":"italic"});
+  T(qf, 505, 801, "−b ± √(b² − 4ac)", {class:"serif", "font-size":4.2, fill:"#7a5a00", "font-style":"italic"});
+  el("line", {x1:489, y1:804.8, x2:521, y2:804.8, stroke:"#7a5a00", "stroke-width":.4}, qf);
+  T(qf, 505, 808.8, "2a", {class:"serif", "font-size":4.2, fill:"#7a5a00", "font-style":"italic"});
+  // birds
+  const bg = A("birds", s), rb = rng(11);
+  const B = [[802,813],[854,806],[880,828],[906,818],[932,823],[963,832],[776,833],[807,839],[833,828],[854,849],[895,844],[921,839],[745,854],[776,851],[948,815]];
+  let bd = "";
+  B.forEach(([x, y]) => {
+    const sc = .8 + rb()*.5, a = (-20 + rb()*40) * RAD, ca = Math.cos(a)*sc, sa = Math.sin(a)*sc;
+    const P2 = (px, py) => `${(x + px*ca - py*sa).toFixed(1)} ${(y + px*sa + py*ca).toFixed(1)}`;
+    bd += `M${P2(-6,-1)}Q${P2(-3,-4.5)} ${P2(0,0)}Q${P2(3,-4.5)} ${P2(6,-1)}Q${P2(3,-2.6)} ${P2(0,1.4)}Q${P2(-3,-2.6)} ${P2(-6,-1)}Z`;
+  });
+  el("path", {d:bd, fill:"#1c0b12"}, bg);
+})();
+
+/* ---------- ocean ---------- */
+(function(){
+  const g = A("ocean", L.sea);
+  el("rect", {x:0, y:900, width:1000, height:100, fill:"#0b3ef0"}, g);
+  let d = "";
+  for (let r = 0; r < 7; r++){
+    const y = 909 + r*13.5, off = (r % 2) * 26;
+    for (let x = -10 + off; x < 1010; x += 52){
+      d += `M${x} ${y}q3 -2.4 6 0t6 0t6 0`;
+    }
+  }
+  el("path", {d:d, fill:"none", stroke:"#5f8cff", "stroke-width":1, "stroke-linecap":"round"}, g);
+})();
+/* ---------- camera: the viewBox is the window ---------- */
+const stage = document.getElementById("stage");
+const zoomBox = stage.querySelector(".zoom");
+const MINK = 1, MAXK = 12;
+let k = 1, cx = 500, cy = 500, raf = 0;
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+let calmTimer = 0;
+function busyOn(){ clearTimeout(calmTimer); if (!svg.classList.contains("busy")) svg.classList.add("busy"); }
+function busyOff(delay){
+  clearTimeout(calmTimer);
+  calmTimer = setTimeout(() => {
+    if (pts.size || raf) return;
+    svg.classList.remove("busy");
+    paintNow();
+  }, delay || 200);
+}
+let rectCache = null;
+function vrect(){ return rectCache || (rectCache = svg.getBoundingClientRect()); }
+function invalidateRect(){ rectCache = null; boxKey = ""; }
+function win(K){
+  const r = vrect(), asp = (r.width || 1) / (r.height || 1), z = K === undefined ? k : K;
+  return {r:r, asp:asp, Ww: asp >= 1 ? 1000*asp/z : 1000/z, Wh: asp >= 1 ? 1000/z : 1000/(z*asp)};
+}
+function clampC(X, Y, w){
+  return [ w.Ww >= 1000 ? 500 : Math.min(1000 - w.Ww/2, Math.max(w.Ww/2, X)),
+           w.Wh >= 1000 ? 500 : Math.min(1000 - w.Wh/2, Math.max(w.Wh/2, Y)) ];
+}
+let painting = false;
+function paint(){
+  if (painting) return;
+  painting = true;
+  requestAnimationFrame(() => { painting = false; paintNow(); });
+}
+let boxKey = "";
+function setBox(w){
+  const W0 = w.asp >= 1 ? 1000*w.asp : 1000, H0 = w.asp >= 1 ? 1000 : 1000/w.asp;
+  const key = W0.toFixed(1) + "/" + H0.toFixed(1);
+  if (key === boxKey) return;
+  boxKey = key;
+  svg.setAttribute("viewBox", `${(500 - W0/2).toFixed(2)} ${(500 - H0/2).toFixed(2)} ${W0.toFixed(2)} ${H0.toFixed(2)}`);
+}
+function paintNow(){
+  const w = win(), c = clampC(cx, cy, w);
+  cx = c[0]; cy = c[1];
+  setBox(w);
+  view.setAttribute("transform", `translate(${(500 - cx*k).toFixed(3)} ${(500 - cy*k).toFixed(3)}) scale(${k.toFixed(5)})`);
+  stage.classList.toggle("zoomed", k > 1.001);
+  document.getElementById("zin").disabled = k >= MAXK - .001;
+  document.getElementById("zout").disabled = k <= MINK + .001;
+  const s = w.r.width / w.Ww;
+  const right = Math.min(w.r.width, (1000 - (cx - w.Ww/2))*s);
+  const bottom = Math.min(w.r.height, (1000 - (cy - w.Wh/2))*s);
+  zoomBox.style.right = Math.max(9, w.r.width - right + 9) + "px";
+  zoomBox.style.bottom = Math.max(9, w.r.height - bottom + 9) + "px";
+}
+function pxPer(){ const w = win(); return w.r.width / w.Ww; }
+function toContent(x, y){
+  const w = win();
+  return [ cx - w.Ww/2 + (x - w.r.left)/(w.r.width || 1)*w.Ww,
+           cy - w.Wh/2 + (y - w.r.top)/(w.r.height || 1)*w.Wh ];
+}
+function setView(K, X, Y, anim){
+  K = Math.min(MAXK, Math.max(MINK, K));
+  const c = clampC(X, Y, win(K));
+  cancelAnimationFrame(raf); raf = 0;
+  if (anim && !reduce){
+    const k0 = k, x0 = cx, y0 = cy, t0 = performance.now(), D = 300;
+    busyOn();
+    let frames = 0;
+    const tick = now => {
+      frames++;
+      const behind = frames >= 3 && (now - t0)/frames > 40;
+      const p = behind ? 1 : Math.min(1, (now - t0)/D);
+      const e = p < .5 ? 2*p*p : 1 - Math.pow(-2*p + 2, 2)/2;
+      k = k0 + (K - k0)*e; cx = x0 + (c[0] - x0)*e; cy = y0 + (c[1] - y0)*e;
+      paintNow();
+      if (p < 1) raf = requestAnimationFrame(tick);
+      else { raf = 0; busyOff(140); }
+    };
+    raf = requestAnimationFrame(tick);
+  } else { k = K; cx = c[0]; cy = c[1]; paint(); }
+}
+function zoomAt(K, x, y, anim){
+  K = Math.min(MAXK, Math.max(MINK, K));
+  const c = toContent(x, y), before = win();
+  const fx = (x - before.r.left)/(before.r.width || 1) - .5, fy = (y - before.r.top)/(before.r.height || 1) - .5;
+  const after = win(K);
+  setView(K, c[0] - fx*after.Ww, c[1] - fy*after.Wh, anim);
+}
+function centerOn(x, y, K, anim){ setView(K, x, y, anim); }
+function zoomMid(K){ setView(K, cx, cy, true); }
+
+/* ---------- readout ---------- */
+const rsym = document.getElementById("rsym"), rgrp = document.getElementById("rgrp"),
+      rtitle = document.getElementById("rtitle"), rdesc = document.getElementById("rdesc"),
+      rgo = document.getElementById("rgo");
+let selected = null;
+function nodes(id){ return svg.querySelectorAll(`.hot[data-id="${id}"]`); }
+function clearSel(){
+  if (!selected) return;
+  nodes(selected).forEach(n => n.classList.remove("sel"));
+  selected = null;
+}
+function select(id, fly){
+  const it = BY[id]; if (!it) return;
+  if (selected !== id){ clearSel(); selected = id; nodes(id).forEach(n => n.classList.add("sel")); }
+  rsym.textContent = it.sym.length > 2 ? it.sym : it.sym + VS;
+  rsym.classList.toggle("small", it.sym.length > 2);
+  rgrp.textContent = GROUPS[it.g];
+  rtitle.textContent = it.label;
+  rdesc.textContent = it.desc;
+  rgo.href = it.url;
+  rgo.hidden = false;
+  if (fly) flyTo(id);
+}
+let litTimer = 0;
+function flash(id){
+  const lit = [];
+  for (let i = 0; i < SPOTS.length; i++){
+    const s = SPOTS[i];
+    if (s.id !== id || s.area > 120000) continue;
+    s.node.classList.remove("lit");
+    lit.push(s.node);
+  }
+  if (!lit.length) return;
+  requestAnimationFrame(() => lit.forEach(n => n.classList.add("lit")));
+  clearTimeout(litTimer);
+  litTimer = setTimeout(() => lit.forEach(n => n.classList.remove("lit")), 1800);
+}
+function flyTo(id){
+  let best = null, bd = Infinity;
+  for (let i = 0; i < SPOTS.length; i++){
+    const s = SPOTS[i];
+    if (s.id !== id) continue;
+    const d = Math.hypot(s.cx - cx, s.cy - cy);
+    if (d < bd){ bd = d; best = s; }
+  }
+  if (!best) return;
+  const size = Math.max(best.x1 - best.x0, best.y1 - best.y0, 1) * 3.4;
+  centerOn(best.cx, best.cy, Math.min(7, Math.max(1.9, 1000/Math.max(size, 130))), true);
+  flash(id);
+  markChip(null);
+}
+function step(d){
+  const i = selected ? ITEMS.findIndex(x => x.id === selected) : -1;
+  const n = (i + d + ITEMS.length) % ITEMS.length;
+  select(ITEMS[d > 0 || i >= 0 ? n : ITEMS.length - 1].id, true);
+}
+document.getElementById("prev").addEventListener("click", () => step(-1));
+document.getElementById("next").addEventListener("click", () => step(1));
+
+/* ---------- hotspot geometry, measured once ---------- */
+const SPOTS = [];
+function buildSpots(){
+  SPOTS.length = 0;
+  const base = view.getScreenCTM();
+  if (!base) return;
+  const inv = base.inverse();
+  svg.querySelectorAll(".hot").forEach(n => {
+    let b, m;
+    try { b = n.getBBox(); m = inv.multiply(n.getScreenCTM()); } catch(err){ return; }
+    if (!b || (!b.width && !b.height)) return;
+    let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+    [[b.x, b.y], [b.x + b.width, b.y], [b.x, b.y + b.height], [b.x + b.width, b.y + b.height]]
+      .forEach(([px, py]) => {
+        const X = m.a*px + m.c*py + m.e, Y = m.b*px + m.d*py + m.f;
+        if (X < x0) x0 = X; if (X > x1) x1 = X;
+        if (Y < y0) y0 = Y; if (Y > y1) y1 = Y;
+      });
+    SPOTS.push({id:n.dataset.id, node:n, x0:x0, y0:y0, x1:x1, y1:y1,
+                cx:(x0+x1)/2, cy:(y0+y1)/2, area:(x1-x0)*(y1-y0)});
+  });
+  SPOTS.sort((a, b) => a.area - b.area);
+}
+
+/* ---------- picking ---------- */
+function pick(x, y, target){
+  if (target && target.dataset && target.dataset.id){ select(target.dataset.id); return; }
+  const c = toContent(x, y), tol = 26 / pxPer();
+  let best = null, bd = Infinity;
+  for (let i = 0; i < SPOTS.length; i++){
+    const s = SPOTS[i];
+    const dx = Math.max(s.x0 - c[0], c[0] - s.x1, 0), dy = Math.max(s.y0 - c[1], c[1] - s.y1, 0);
+    const d = dx || dy ? Math.hypot(dx, dy) : 0;
+    if (d < bd){ bd = d; best = s; if (d === 0) break; }
+  }
+  if (best && bd <= tol) select(best.id); else clearSel();
+}
+
+/* ---------- pointers: drag, pinch, tap, double-tap ---------- */
+const pts = new Map();
+let moved = 0, downAt = 0, downTarget = null, pinchD = 0, lastTap = 0, lastTapXY = null, lastTouch = 0;
+function pair(){ return Array.from(pts.values()); }
+stage.addEventListener("pointerdown", e => {
+  if (e.target.closest && e.target.closest(".zoom")) return;
+  if (e.pointerType === "mouse" && e.button !== 0) return;
+  if (e.pointerType !== "mouse") lastTouch = performance.now();
+  stage.setPointerCapture(e.pointerId);
+  pts.set(e.pointerId, {x:e.clientX, y:e.clientY});
+  busyOn();
+  invalidateRect();
+  if (pts.size === 1){
+    moved = 0; downAt = performance.now();
+    downTarget = e.target.closest ? e.target.closest(".hot") : null;
+    stage.classList.add("drag");
+  } else if (pts.size === 2){
+    const p = pair(); pinchD = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y);
+  }
+});
+stage.addEventListener("pointermove", e => {
+  const prev = pts.get(e.pointerId); if (!prev) return;
+  const cur = {x:e.clientX, y:e.clientY};
+  pts.set(e.pointerId, cur);
+  if (pts.size === 1){
+    moved += Math.hypot(cur.x - prev.x, cur.y - prev.y);
+    if (k > 1.001){
+      const s = pxPer();
+      setView(k, cx - (cur.x - prev.x)/s, cy - (cur.y - prev.y)/s, false);
+      markChip(null);
+    }
+  } else if (pts.size === 2){
+    const p = pair(), d = Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y);
+    if (pinchD > 0 && d > 0) zoomAt(k * (d/pinchD), (p[0].x + p[1].x)/2, (p[0].y + p[1].y)/2, false);
+    pinchD = d; moved += 30; markChip(null);
+  }
+});
+function release(e){
+  if (!pts.has(e.pointerId)) return;
+  const solo = pts.size === 1;
+  pts.delete(e.pointerId);
+  if (!pts.size){ stage.classList.remove("drag"); busyOff(120); }
+  if (pts.size === 1) pinchD = 0;
+  if (e.pointerType !== "mouse") lastTouch = performance.now();
+  if (!solo || e.type === "pointercancel") return;
+  if (moved > 11 || performance.now() - downAt > 600) return;
+  const now = performance.now();
+  const dbl = lastTapXY && now - lastTap < 320 && Math.hypot(e.clientX - lastTapXY[0], e.clientY - lastTapXY[1]) < 34;
+  lastTap = now; lastTapXY = [e.clientX, e.clientY];
+  if (dbl){ lastTap = 0; zoomAt(k > 2.8 ? 1 : 3.2, e.clientX, e.clientY, true); markChip(null); return; }
+  pick(e.clientX, e.clientY, downTarget);
+}
+stage.addEventListener("pointerup", release);
+stage.addEventListener("pointercancel", release);
+stage.addEventListener("dblclick", e => e.preventDefault());
+stage.addEventListener("wheel", e => {
+  e.preventDefault();
+  busyOn();
+  busyOff(170);
+  const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1;
+  if (e.ctrlKey || e.metaKey){
+    // Ctrl/⌘ + wheel, or a trackpad pinch (which browsers report as Ctrl + wheel)
+    const dy = e.deltaY * unit, rate = Math.abs(dy) < 40 ? .012 : .0022;
+    zoomAt(k * Math.min(1.5, Math.max(.66, Math.exp(-dy * rate))), e.clientX, e.clientY, false);
+  } else {
+    let dx = e.deltaX * unit, dy = e.deltaY * unit;
+    if (e.shiftKey && !dx){ dx = dy; dy = 0; }
+    const s = pxPer();
+    setView(k, cx + dx/s, cy + dy/s, false);
+  }
+  markChip(null);
+}, {passive:false});
+
+svg.addEventListener("mouseover", e => {
+  if (pts.size || performance.now() - lastTouch < 900) return;
+  const a = e.target.closest(".hot");
+  if (a && a.dataset.id !== selected) select(a.dataset.id);
+});
+svg.addEventListener("focusin", e => { const a = e.target.closest(".hot"); if (a) select(a.dataset.id); });
+svg.addEventListener("keydown", e => {
+  const a = e.target.closest(".hot"); if (!a) return;
+  if (e.key === "Enter" || e.key === " "){ e.preventDefault(); select(a.dataset.id, true); }
+});
+
+document.getElementById("zin").addEventListener("click", () => { zoomMid(k * 1.7); markChip(null); });
+document.getElementById("zout").addEventListener("click", () => { zoomMid(k / 1.7); markChip(null); });
+
+/* ---------- regions ---------- */
+const REGIONS = [
+  {n:"Whole image", s:"Whole", cx:500, cy:500, size:1000},
+  {n:"Tree of Life", s:"Tree", cx:500, cy:170, size:420},
+  {n:"Forces and elements", s:"Forces", cx:500, cy:390, size:560},
+  {n:"Particle wheel", s:"Wheel", cx:500, cy:624, size:300},
+  {n:"Setting sun", s:"Sun", cx:500, cy:804, size:150}
+];
+const chips = document.getElementById("chips");
+REGIONS.forEach((rg, i) => {
+  const b = document.createElement("button");
+  b.type = "button"; b.className = "chip"; b.textContent = rg.s;
+  b.setAttribute("aria-label", "Go to " + rg.n);
+  b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+  b.addEventListener("click", () => { centerOn(rg.cx, rg.cy, 1000/rg.size, true); markChip(b); });
+  chips.appendChild(b);
+});
+function markChip(btn){
+  chips.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", c === btn ? "true" : "false"));
+}
+
+/* ---------- keyboard ---------- */
+document.addEventListener("keydown", e => {
+  if (e.target.closest("input, textarea, a")) return;
+  if (e.key === "ArrowRight"){ e.preventDefault(); step(1); }
+  else if (e.key === "ArrowLeft"){ e.preventDefault(); step(-1); }
+  else if (e.key === "+" || e.key === "="){ zoomMid(k*1.7); markChip(null); }
+  else if (e.key === "-"){ zoomMid(k/1.7); markChip(null); }
+  else if (e.key === "0"){ centerOn(500, 500, 1, true); markChip(chips.firstChild); }
+  else if (e.key === "Escape"){ clearSel(); }
+});
+
+el("rect", {x:.5, y:.5, width:999, height:999, rx:9, fill:"none", stroke:"#8a7ca8", "stroke-opacity":".45", "stroke-width":1, "pointer-events":"none"}, view);
+
+let lastH = 0;
+function appHeight(){
+  const d = document.documentElement;
+  let h = d.clientHeight || window.innerHeight || 0;
+  if (window.innerHeight) h = Math.min(h, window.innerHeight);
+  if (window.visualViewport && window.visualViewport.height) h = Math.min(h, window.visualViewport.height);
+  h = Math.round(h);
+  if (h > 0 && h !== lastH){ lastH = h; d.style.setProperty("--h", h + "px"); }
+}
+if (window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches){
+  rdesc.textContent = "Zoom with + and −, or Ctrl-scroll (⌘-scroll on a Mac). Scroll or drag to move around, and double-click to zoom in on a spot. The arrows step from one symbol to the next.";
+}
+try { if (window.self !== window.top) document.documentElement.classList.add("embedded"); }
+catch(e){ document.documentElement.classList.add("embedded"); }
+appHeight();
+const relayout = () => { appHeight(); invalidateRect(); paint(); };
+addEventListener("resize", relayout);
+if (window.visualViewport) window.visualViewport.addEventListener("resize", relayout);
+if (window.ResizeObserver) new ResizeObserver(() => { invalidateRect(); paint(); }).observe(stage);
+addEventListener("orientationchange", () => setTimeout(relayout, 260));
+buildSpots();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { invalidateRect(); buildSpots(); });
+paintNow();
+})();
+</script>
+</body>
+</html>
